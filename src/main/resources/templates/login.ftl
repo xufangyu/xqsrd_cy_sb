@@ -10,7 +10,7 @@
     <title>兴趣使然的创意</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/trd/bootstrap-4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/plugins/bootstrap-4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/login/floating-labels.css" rel="stylesheet">
   </head>
 

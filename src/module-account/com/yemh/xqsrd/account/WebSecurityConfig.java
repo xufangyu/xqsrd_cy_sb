@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 //        http.csrf().disable();
         http.authorizeRequests()
-            .antMatchers("/trd/**", "/css/**", "/js/**", "/imag/**", "/**/favicon.ico").permitAll()
+            .antMatchers("/plugins/**", "/css/**", "/js/**", "/imag/**", "/**/favicon.ico").permitAll()
             .anyRequest()
             .authenticated()
             .and()
@@ -47,10 +47,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .failureUrl("/login?error")
                 .permitAll()
             .and()
-            .rememberMe()
-                .tokenValiditySeconds(24 * 3600 * 14)
-                .key("yemh")
-            .and()
+            //记住登录暂时有bug
+//            .rememberMe()
+//                .tokenValiditySeconds(24 * 3600 * 14)
+//                .key("yemh")
+//            .and()
             .logout()
                 .permitAll()
             .and()

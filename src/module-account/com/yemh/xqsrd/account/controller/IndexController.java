@@ -85,7 +85,7 @@ public class IndexController {
         root2Leaf1.put("id", "21");
         root2Leaf1.put("title", "Navbar");
         root2Leaf1.put("icon", "fa-table");
-        root2Leaf1.put("url", "navbar.html");
+        root2Leaf1.put("url", "validateCode.html");
         JSONObject root2Leaf2 = new JSONObject();
         root2Leaf2.put("id", "22");
         root2Leaf2.put("title", "Tab");
