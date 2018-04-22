@@ -7,8 +7,8 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+src/main/resources/application-dev.properties
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar
-src/main/resources/application-dev.properties
-src/main/resources/application-proc.properties
+
