@@ -32,9 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
+        http.csrf().ignoringAntMatchers("/checkCode");
         http.authorizeRequests()
-            .antMatchers("/plugins/**", "/css/**", "/js/**", "/imag/**", "/**/favicon.ico").permitAll()
+//            .antMatchers("/plugins/**", "/css/**", "/js/**", "/imag/**", "/**/favicon.ico").permitAll()
+            // 关闭鉴权
+            .antMatchers("/**").permitAll()
             .anyRequest()
             .authenticated()
             .and()
@@ -42,8 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .permitAll()
             //设置默认登录成功跳转页面
-//            .defaultSuccessUrl("/index")
-            .successForwardUrl("/index")
+            .defaultSuccessUrl("/index")
+//            .successForwardUrl("/index")
             .failureUrl("/login?error")
                 .permitAll()
             .and()

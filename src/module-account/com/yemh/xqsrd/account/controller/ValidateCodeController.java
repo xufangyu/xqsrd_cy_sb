@@ -1,12 +1,16 @@
 package com.yemh.xqsrd.account.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yemh.xqsrd.account.util.ValidateCode;
 import com.yemh.xqsrd.base.util.StringUtil;
 
@@ -36,11 +40,16 @@ public class ValidateCodeController {
     
     @RequestMapping(value="/checkCode")  
     public String checkValidateCode(HttpServletRequest request,HttpServletResponse response) throws Exception{  
-        String code = request.getParameter("code");  
+//        String code = request.getParameter("code");  
+        JSONObject jsonObject = (JSONObject)JSONObject.parse(request.getParameterNames().nextElement());
+        Map<String, Object> params = jsonObject;
+        String code = params.get("code")==null?"no":(String)params.get("code");
+        System.out.println(code);
         HttpSession session = request.getSession();  
         String sessionCode = (String) session.getAttribute("code");  
         if (!StringUtil.equalsIgnoreCase(code, sessionCode)) {  //忽略验证码大小写  
-            throw new RuntimeException("验证码对应不上code=" + code + "  sessionCode=" + sessionCode);  
+//            throw new RuntimeException("验证码对应不上code=" + code + "  sessionCode=" + sessionCode);  
+            return "FALSE";
         }
         return "OK";
     }  

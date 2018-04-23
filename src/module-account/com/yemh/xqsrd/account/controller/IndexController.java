@@ -71,9 +71,15 @@ public class IndexController {
         leaf2.put("title", "表单");
         leaf2.put("icon", "&#xe63c;");
         leaf2.put("url", "form.html");
+        JSONObject leaf3 = new JSONObject();
+        leaf3.put("id", "13");
+        leaf3.put("title", "验证码");
+        leaf3.put("icon", "&#xe63c;");
+        leaf3.put("url", "validateCode.html");
         JSONArray root1LeafList = new JSONArray();
         root1LeafList.add(leaf1);
         root1LeafList.add(leaf2);
+        root1LeafList.add(leaf3);
         root1.put("children", root1LeafList);
         
         JSONObject root2 = new JSONObject();

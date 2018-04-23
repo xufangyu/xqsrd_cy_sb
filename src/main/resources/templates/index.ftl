@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="./plugins/font-awesome/css/font-awesome.min.css" media="all" />
   <link rel="stylesheet" href="./css/app.css" media="all" />
   <link rel="stylesheet" href="./css/themes/default.css" media="all" id="skin" kit-skin />
+  <meta name="_csrf" content="${_csrf.token }"/>
+  <!-- default header name is X-CSRF-TOKEN -->
+  <meta name="_csrf_header" content="${_csrf.headerName }"/>
 </head>
 
 <body class="kit-theme">

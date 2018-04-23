@@ -81,8 +81,7 @@ public class ValidateCode {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, width, height);
         // 创建字体,可以修改为其它的
-        Font font = new Font("Fixedsys", Font.PLAIN, fontHeight);
-//        Font font = new Font("Times New Roman", Font.ROMAN_BASELINE, fontHeight);
+        Font font = new Font("Courier New", Font.BOLD, fontHeight);
         g.setFont(font);
 
 //        for (int i = 0; i < lineCount; i++) {
@@ -136,18 +135,61 @@ public class ValidateCode {
         return code;
     }
 
+    public void createAllCode() {
+        int x = 0, fontHeight = 0, codeY = 0;
+        int red = 0, green = 0, blue = 0;
+
+        x = width / (codeCount + 2);//每个字符的宽度(左右各空出一个字符)
+        fontHeight = height - 2;//字体的高度
+        codeY = height - 4;
+        
+        width = 80;
+        height = 1600;
+        
+        // 图像buffer
+        buffImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = buffImg.createGraphics();
+        // 生成随机数
+        Random random = new Random();
+        // 将图像填充为白色
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, width, height);
+        // 创建字体,可以修改为其它的
+        Font font = new Font("Courier New", Font.BOLD, fontHeight);
+        g.setFont(font);
+
+        // randomCode记录随机产生的验证码
+        StringBuffer randomCode = new StringBuffer();
+        // 随机产生codeCount个字符的验证码。
+        for (int i = 0; i < codeSequence.length; i++) {
+            String strRand = String.valueOf(codeSequence[i]);
+            // 产生随机的颜色值，让输出的每个字符的颜色值都将不同。
+            red = random.nextInt(255);
+            green = random.nextInt(255);
+            blue = random.nextInt(255);
+            g.setColor(new Color(red, green, blue));
+            g.drawString(strRand, x, (i + 1) * codeY);
+            // 将产生的四个随机数组合在一起。
+            randomCode.append(strRand);
+        }
+        // 将四位数字的验证码保存到Session中。
+        code = randomCode.toString();
+    }
+    
     /**
      * 测试函数,默认生成到d盘
      * @param args
      */
     public static void main(String[] args) {
         ValidateCode vCode = new ValidateCode(160,40,5,150);
+        vCode.createAllCode();
         try {
-            String path="D:/"+new Date().getTime()+".png";
+            String path="D:/" + new Date().getTime()+".png";
             System.out.println(vCode.getCode()+" >"+path);
             vCode.write(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
+            
     }
 }
