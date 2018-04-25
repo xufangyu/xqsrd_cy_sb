@@ -5,5 +5,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(
-    basePackages = {"com.yemh.xqsrd.account.controller", "com.yemh.xqsrd.account.service.impl"})
+    basePackages = {"com.yemh.xqsrd.**.controller", "com.yemh.xqsrd.**.service.impl"})
 public class AccountConfig {}
