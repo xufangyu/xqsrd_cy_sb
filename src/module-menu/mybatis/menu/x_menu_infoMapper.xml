@@ -13,10 +13,13 @@
 	<select id="getMenuList" resultType="java.util.LinkedHashMap">
 		select 
         xid 'xId',
+        menu_name 'title',
+        menu_name 'name',
         menu_path 'path',
         menu_component 'component',
         menu_icon 'icon',
         parent_id 'parentId',
+        is_leaf 'leaf',
         pos 'pos'
 		from x_menu order by pos
 	</select>

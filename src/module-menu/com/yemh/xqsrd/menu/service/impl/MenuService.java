@@ -28,9 +28,9 @@ public class MenuService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<Map<String, Object>> buildmenuList = buildMenu(menuList);
+//        List<Map<String, Object>> buildmenuList = buildMenu(menuList);
         
-        return JSONObject.toJSONString(buildmenuList);
+        return JSONObject.toJSONString(menuList);
     }
     
     List<Map<String, Object>> buildMenu(List<Map<String, Object>> list){
