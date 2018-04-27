@@ -33,6 +33,39 @@ public class MenuService {
         return JSONObject.toJSONString(menuList);
     }
     
+    /**
+     * 获取所有菜单，菜单管理界面用
+     * @return
+     */
+    public String getAllMenuList() {
+        List<Map<String, Object>> menuList = null;
+        try {
+            menuList = ixMenuMapper.getAllMenuList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", menuList);
+        data.put("count", menuList.size());
+        data.put("msg", "获取所有菜单成功");
+        data.put("code", 0);
+        
+        return JSONObject.toJSONString(data);
+    }
+    
+    public String getParentMenuList() {
+        List<Map<String, Object>> menuList = null;
+        try {
+            menuList = ixMenuMapper.getParentMenuList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        JSONObject data = new JSONObject();
+//        data.put("data", menuList);
+        return JSONObject.toJSONString(menuList);
+    }
+    
+    
     List<Map<String, Object>> buildMenu(List<Map<String, Object>> list){
         Map<String, Object> totalMap = new LinkedHashMap<>();
         
@@ -62,4 +95,6 @@ public class MenuService {
         
         return newlist;
     }
+
+
 }

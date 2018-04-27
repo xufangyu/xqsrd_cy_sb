@@ -14,7 +14,7 @@
 		select 
         xid 'xId',
         menu_name 'title',
-        menu_name 'name',
+        concat(menu_name,'1') 'name',
         menu_path 'path',
         menu_component 'component',
         menu_icon 'icon',
@@ -23,4 +23,36 @@
         pos 'pos'
 		from x_menu order by pos
 	</select>
+	
+	<!-- 管理查询，获取所有菜单 -->
+    <select id="getAllMenuList" resultType="java.util.LinkedHashMap">
+        select 
+        xid 'xId',
+        menu_name 'menuName',
+        menu_path 'menuPath',
+        menu_component 'menuComponent',
+        menu_icon 'icon',
+        parent_id 'parentId',
+        is_leaf 'leaf',
+        pos 'pos'
+        from x_menu order by pos
+    </select>
+    
+    <!-- 管理查询，获取所有父节点菜单 -->
+    <select id="getParentMenuList" resultType="java.util.LinkedHashMap">
+        select 
+        xid 'xId',
+        menu_name 'menuName',
+        menu_path 'menuPath',
+        menu_component 'menuComponent',
+        menu_icon 'icon',
+        parent_id 'parentId',
+        is_leaf 'leaf',
+        pos 'pos'
+        from x_menu 
+        <where>
+        is_leaf = '0'
+        </where>
+        order by pos
+    </select>
 </mapper>

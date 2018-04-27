@@ -11,14 +11,30 @@ import com.yemh.xqsrd.menu.service.impl.MenuService;
  * @date 2018/04/26
  */
 @RestController
+@RequestMapping("/menu")
 public class MenuController {
     @Autowired
     private MenuService menuService;
 
+    
     @RequestMapping("/getMenuList")
     public String getMenuList() {
         
         String json = menuService.getMenuList();
+        return json;
+    }
+    
+    @RequestMapping("/getAllMenuList")
+    public String getAllMenuList() {
+        
+        String json = menuService.getAllMenuList();
+        return json;
+    }
+    
+    @RequestMapping("/getParentMenuList")
+    public String getParentMenuList() {
+        
+        String json = menuService.getParentMenuList();
         return json;
     }
 }
