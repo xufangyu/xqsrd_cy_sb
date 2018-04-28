@@ -119,9 +119,9 @@
                         <option value=""></option>
                         {{# layui.each(d.icons,function(index,item){ }}                      
                         {{# if(item.value===d.menu.icon){}}
-                        <option value="{{item.value}}" selected><i class="layui-icon">{{item.value}}</i></option>
+                        <option icon value="{{item.value}}" selected><i class="layui-icon">{{item.value}}</i></option>
                         {{#}else{}}
-                        <option value="{{item.value}}"><i class="layui-icon">{{item.value}}</i></option>
+                        <option icon value="{{item.value}}"><i class="layui-icon">{{item.value}}</i></option>
                         {{#};}}
                         {{# }); }}
                         </select>
@@ -130,7 +130,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">父节点</label>
                     <div class="layui-input-block">
-                        <select name="icons" lay-verify="required">
+                        <select name="parentId" lay-verify="required">
                         <option value=""></option>
                         {{# layui.each(d.parentList,function(index,item){ }}                      
                         {{# if(item.xId===d.menu.parentId){}}
@@ -366,7 +366,10 @@
             });
             var editIndex;
             form.on('submit(formEdit)', function(data) {
-                layer.msg('formEdit');
+                // layer.msg('formEdit');
+                layer.alert(JSON.stringify(data.field), {
+                    title: '最终的提交信息'
+                })
                 editIndex && layer.close(editIndex); //关闭弹出层
                 return false;
             });
@@ -426,8 +429,8 @@
                             ids = [];
                         layui.each(data, function(index, item) {
                             console.log(item);
-                            names.push(item.username);
-                            ids.push(item.id);
+                            names.push(item.menuName);
+                            ids.push(item.xId);
                         });
                         layer.msg(names.join(','));
                         console.log(ids.join(','));
