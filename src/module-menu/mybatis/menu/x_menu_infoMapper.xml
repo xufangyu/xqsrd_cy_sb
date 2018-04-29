@@ -14,7 +14,6 @@
 		select 
         xid 'xId',
         menu_name 'title',
-        concat(menu_name,'1') 'name',
         menu_path 'path',
         menu_component 'component',
         menu_icon 'icon',
