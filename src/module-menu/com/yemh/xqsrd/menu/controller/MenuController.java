@@ -1,6 +1,10 @@
 package com.yemh.xqsrd.menu.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,22 +23,27 @@ public class MenuController {
     
     @RequestMapping("/getMenuList")
     public String getMenuList() {
-        
         String json = menuService.getMenuList();
         return json;
     }
     
     @RequestMapping("/getAllMenuList")
     public String getAllMenuList() {
-        
         String json = menuService.getAllMenuList();
         return json;
     }
     
     @RequestMapping("/getParentMenuList")
     public String getParentMenuList() {
-        
         String json = menuService.getParentMenuList();
+        return json;
+    }
+    
+    @RequestMapping("/addMenu")
+    public String addMenu(@RequestBody Map<String, Object> params) {
+        System.out.println(params.toString());
+        String json = menuService.getAddMenuList(params);
+        System.out.println(json);
         return json;
     }
 }

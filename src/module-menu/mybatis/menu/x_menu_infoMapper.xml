@@ -54,4 +54,28 @@
         </where>
         order by pos
     </select>
+    
+    <insert id="addMenu">
+        insert into x_menu (
+        menu_name,
+        menu_path,
+        menu_component,
+        menu_icon,
+        parent_id,
+        is_leaf,
+        pos,
+        gmt_create,
+        gmt_modified
+        ) values (
+        #{menuName},
+        #{menuPath},
+        #{menuComponent},
+        #{menuIcon},
+        #{parentId},
+        #{leaf},
+        #{pos},
+        #{gmtCreate,jdbcType=TIMESTAMP},
+        #{gmtModified,jdbcType=TIMESTAMP}
+        )
+    </insert>
 </mapper>

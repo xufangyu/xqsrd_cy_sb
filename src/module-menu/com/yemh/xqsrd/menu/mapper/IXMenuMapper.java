@@ -14,4 +14,7 @@ public interface IXMenuMapper {
     List<Map<String, Object>> getAllMenuList();
 
     List<Map<String, Object>> getParentMenuList();
+
+    int addMenu(Map<String, Object> params);
+
 }

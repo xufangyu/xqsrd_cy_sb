@@ -1,6 +1,9 @@
 package com.yemh.xqsrd.menu.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +68,7 @@ public class MenuService {
         return JSONObject.toJSONString(menuList);
     }
     
-    
+    @Deprecated
     List<Map<String, Object>> buildMenu(List<Map<String, Object>> list){
         Map<String, Object> totalMap = new LinkedHashMap<>();
         
@@ -94,6 +97,33 @@ public class MenuService {
         newlist.add(totalMap);
         
         return newlist;
+    }
+
+    public String getAddMenuList(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("state", "0");
+        result.put("data", "");
+        result.put("msg", "添加失败");
+        
+        Date dateTime = new Date();
+        // 添加创建时间和修改时间
+        params.put("gmtCreate", dateTime);
+        params.put("gmtModified", dateTime);
+        
+        int i = 0;
+        try {
+            i = ixMenuMapper.addMenu(params);
+            if(i > 0) {
+                result.put("state", "1");
+                result.put("data", "");
+                result.put("msg", "添加成功");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        JSONObject data = new JSONObject();
+//        data.put("data", menuList);
+        return JSONObject.toJSONString(result);
     }
 
 
