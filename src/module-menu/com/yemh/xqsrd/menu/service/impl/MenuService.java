@@ -99,7 +99,7 @@ public class MenuService {
         return newlist;
     }
 
-    public String getAddMenuList(Map<String, Object> params) {
+    public String addMenu(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
         result.put("state", "0");
         result.put("data", "");
@@ -109,6 +109,8 @@ public class MenuService {
         // 添加创建时间和修改时间
         params.put("gmtCreate", dateTime);
         params.put("gmtModified", dateTime);
+        // 默认插入菜单目录
+        params.put("leaf", params.get("leaf")==null?"0":params.get("leaf"));
         
         int i = 0;
         try {
@@ -121,8 +123,32 @@ public class MenuService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        JSONObject data = new JSONObject();
-//        data.put("data", menuList);
+        return JSONObject.toJSONString(result);
+    }
+
+    public String updMenu(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("state", "0");
+        result.put("data", "");
+        result.put("msg", "更新失败");
+        
+        Date dateTime = new Date();
+        // 添加创建时间和修改时间
+//        params.put("gmtCreate", dateTime);
+        params.put("gmtModified", dateTime);
+        // 默认插入菜单目录
+        params.put("leaf", params.get("leaf")==null?"0":params.get("leaf"));
+        int i = 0;
+        try {
+            i = ixMenuMapper.updMenu(params);
+            if(i > 0) {
+                result.put("state", "1");
+                result.put("data", "");
+                result.put("msg", "更新成功");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return JSONObject.toJSONString(result);
     }
 

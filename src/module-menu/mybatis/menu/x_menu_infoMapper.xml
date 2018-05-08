@@ -78,4 +78,22 @@
         #{gmtModified,jdbcType=TIMESTAMP}
         )
     </insert>
+    
+    <update id="updMenu">
+        update x_menu
+        <set>
+        <if test="menuName != null or menuName !=''">menu_name = #{menuName},</if>
+        <if test="menuPath != null or menuPath !=''">menu_path = #{menuPath},</if>
+        <if test="menuComponent != null or menuComponent !=''">menu_component = #{menuComponent},</if>
+        <if test="menuIcon != null or menuIcon !=''">menu_icon = #{menuIcon},</if>
+        <if test="parentId != null or parentId !=''">parent_id = #{parentId},</if>
+        <if test="leaf != null or leaf !=''">is_leaf = #{leaf},</if>
+        <if test="pos != null or pos !=''">pos = #{pos},</if>
+        <if test="gmt_modified != null or gmt_modified !=''">gmt_modified = #{gmtModified},</if>
+        </set>
+        <where>
+        xid = #{xId}
+        </where>
+    
+    </update>
 </mapper>

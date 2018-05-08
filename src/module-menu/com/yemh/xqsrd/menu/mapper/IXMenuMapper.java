@@ -17,4 +17,6 @@ public interface IXMenuMapper {
 
     int addMenu(Map<String, Object> params);
 
+    int updMenu(Map<String, Object> params);
+
 }
