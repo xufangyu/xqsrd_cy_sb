@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
-import com.yemh.xqsrd.account.service.impl.CustomUserService;
+import com.yemh.xqsrd.account.service.impl.CustomUserServiceImpl;
 
 /**
  * @author yemh
@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     UserDetailsService customUserService() {
-        return new CustomUserService();
+        return new CustomUserServiceImpl();
     }
 
     @Override

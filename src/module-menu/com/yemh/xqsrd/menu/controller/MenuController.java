@@ -42,15 +42,12 @@ public class MenuController {
     @RequestMapping("/addMenu")
     public String addMenu(@RequestBody Map<String, Object> params) {
         String json = menuService.addMenu(params);
-        System.out.println(json);
         return json;
     }
     
     @RequestMapping("/updMenu")
     public String updMenu(@RequestBody Map<String, Object> params) {
-        System.out.println(params.toString());
         String json = menuService.updMenu(params);
-        System.out.println(json);
         return json;
     }
 }

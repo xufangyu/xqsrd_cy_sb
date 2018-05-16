@@ -18,12 +18,15 @@ import com.yemh.xqsrd.menu.mapper.IXMenuMapper;
  * @author yemh
  * @date 2018/04/26
  */
-@Service
+@Service("MenuService")
 public class MenuService {
 
     @Autowired
     private IXMenuMapper ixMenuMapper;
     
+    /**
+     * 用于界面加载菜单时查询
+     */
     public String getMenuList() {
         List<Map<String, Object>> menuList = null;
         try {

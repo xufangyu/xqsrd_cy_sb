@@ -1,6 +1,9 @@
 //package com.yemh.xqsrd.base.util;
 //
-//import org.mybatis.spring.SqlSessionTemplate;
+//import java.util.List;
+//
+//import org.apache.ibatis.session.SqlSession;
+//import org.apache.ibatis.session.SqlSessionFactory;
 //import org.springframework.beans.BeansException;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.ApplicationContext;
@@ -15,19 +18,31 @@
 //public class DaoUtil implements ApplicationContextAware {
 //
 //    private static ApplicationContext applicationContext;
+//
+//    @Autowired
+//    private static SqlSession sqlsession;
 //    
-//    private static SqlSessionTemplate sqlsession;
+//    @Autowired
+//    private static SqlSessionFactory sqlSessionFactory;
 //    
-//    private static SqlSessionTemplate getSqlSession() {
+//    private static SqlSession getSqlSession() {
 //        if(sqlsession == null) {
-//            sqlsession = applicationContext.getBean(SqlSessionTemplate.class);
+//            sqlsession = sqlSessionFactory.openSession();
+////            sqlsession = applicationContext.getBean(SqlSessionTemplate.class);
 //        }
 //        return sqlsession;
 //    }
-//    
 //    public static int insert(String sql, Object parameter) throws Exception {
 //        try {
 //            return getSqlSession().insert(sql, parameter);
+//        } catch (Exception e) {
+//            throw new Exception(e);
+//        }
+//    }
+//    
+//    public static List<Object> selectList(String sql, Object parameter) throws Exception {
+//        try {
+//            return getSqlSession().selectList(sql, parameter);
 //        } catch (Exception e) {
 //            throw new Exception(e);
 //        }

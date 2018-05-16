@@ -5,14 +5,14 @@
     <resultMap id="BaseResultMap" type="xuser" >
         <id column="id" property="id" jdbcType="BIGINT" />
         <result column="username" property="username" jdbcType="VARCHAR" />
-        <result column="passnord" property="passnord" jdbcType="VARCHAR" />
+        <result column="passnord" property="password" jdbcType="VARCHAR" />
         <result column="login_name" property="loginName" jdbcType="VARCHAR" />
 <!--         <result column="user_sex" property="userSex" javaType="com.neo.enums.UserSexEnum"/> -->
     </resultMap>
-    <!-- 登录查询 -->
-	<select id="getByLoginName" parameterType="string" resultMap="BaseResultMap">
-		select *
-		from x_user
-		where login_name = #{loginName,jdbcType=BIGINT}
-	</select>
+	
+	<!-- 用户查询List -->
+    <select id="getUserList" parameterType="Map" resultMap="BaseResultMap">
+        select *
+        from x_user
+    </select>
 </mapper>

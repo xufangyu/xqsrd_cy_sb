@@ -7,16 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.yemh.xqsrd.account.mapper.IXLoginMapper;
 import com.yemh.xqsrd.account.mapper.IXUserMapper;
 import com.yemh.xqsrd.account.pojo.XUser;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserMapperTest {
+public class LoginMapperTest {
 
     @Autowired
-    private IXUserMapper ixUserMapper;
+    private IXLoginMapper ixLoginMapper;
 
 //    @Test
 //    public void testInsert() throws Exception {
@@ -29,7 +30,7 @@ public class UserMapperTest {
 
     @Test
     public void testQuery() throws Exception {
-        XUser users = ixUserMapper.getByLoginName("yemh");
+        XUser users = ixLoginMapper.getByLoginName("yemh");
         System.out.println(users.toString());
         Assert.assertNotNull(users);
     }

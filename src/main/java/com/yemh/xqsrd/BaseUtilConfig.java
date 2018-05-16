@@ -1,0 +1,9 @@
+package com.yemh.xqsrd;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(
+    basePackages = {"com.yemh.xqsrd.**.util"})
+public class BaseUtilConfig {}
