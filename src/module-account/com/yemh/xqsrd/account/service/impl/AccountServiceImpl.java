@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageRowBounds;
 import com.yemh.xqsrd.account.mapper.IXUserMapper;
 import com.yemh.xqsrd.account.pojo.XUser;
@@ -46,17 +47,15 @@ public class AccountServiceImpl implements AccountService {
         params.put("pageSize", "20");
         
         
-        List<XUser> userList = null;
-        List<Object> selectList = null;
+        Page<Map<String, Object>> userList = null;
         try {
-//            selectList = daoUtil.selectList("getUserList", params);
             userList = ixUserMapper.getUserList(new PageRowBounds(5, 20),params);
         } catch (Exception e) {
             e.printStackTrace();
         }
         JSONObject data = new JSONObject();
-//        data.put("data", userList);
-//        data.put("count", userList.size());
+        data.put("data", userList);
+        data.put("count", userList.getTotal());
         data.put("msg", "获取所有菜单成功");
         data.put("code", 0);
         

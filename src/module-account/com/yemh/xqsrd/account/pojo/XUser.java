@@ -18,8 +18,12 @@ public class XUser implements UserDetails {
     
     private Long xId;
     private String username;
-    private String loginName;
     private String password;
+    private String loginName;
+    private String mobile;
+    private String email;
+    private String loginTime;
+    private String lastLoginTime;
     
     private List<XRoles> roles;
 
@@ -137,5 +141,45 @@ public class XUser implements UserDetails {
     public String toString() {
         return "XUser [xId=" + xId + ", username=" + username + ", loginName=" + loginName + ", password=" + password
             + ", roles=" + roles + "]";
+    }
+
+
+    public String getMobile() {
+        return mobile;
+    }
+
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    public String getLoginTime() {
+        return loginTime;
+    }
+
+
+    public void setLoginTime(String loginTime) {
+        this.loginTime = loginTime;
+    }
+
+
+    public String getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+
+    public void setLastLoginTime(String lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
     }
 }
