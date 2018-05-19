@@ -10,4 +10,10 @@ import com.yemh.xqsrd.account.pojo.XUser;
 public interface IXUserMapper {
 
     Page<Map<String, Object>> getUserList(PageRowBounds pageRowBounds,Map<String, Object> params);
+
+    int add(Map<String, Object> params);
+
+    int upd(Map<String, Object> params);
+
+    int del(Map<String, Object> params);
 }

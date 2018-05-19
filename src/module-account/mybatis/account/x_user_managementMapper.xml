@@ -4,16 +4,15 @@
     <!-- 结果集 -->
     <resultMap id="BaseResultMap" type="java.util.LinkedHashMap" >
         <result column="xid" property="xId" jdbcType="BIGINT" />
-        <result column="username" property="username" jdbcType="VARCHAR" />
-        <result column="password" property="password" jdbcType="VARCHAR" />
         <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
         <result column="mobile" property="mobile" jdbcType="VARCHAR" />
         <result column="email" property="email" jdbcType="VARCHAR" />
         <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" javaType="string" />
         <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP"  javaType="String" />
     </resultMap>
 	<sql id="Base_Column_List">
-		xid xId, username username, login_name loginName, mobile, email, 
+		xid xId, login_name loginName,username username,  mobile, email, 
         DATE_FORMAT(login_time,'%Y-%m-%d %h:%m:%s') loginTime, 
         DATE_FORMAT(last_login_time,'%Y-%m-%d %h:%m:%s') lastLoginTime, 
         DATE_FORMAT(gmt_create,'%Y-%m-%d %h:%m:%s') gmtCreate, 
@@ -24,5 +23,51 @@
         select
         <include refid="Base_Column_List" />
         from x_user
+        order by gmt_create DESC
     </select>
+    <!-- 添加账号 -->
+    <insert id="add">
+        insert into x_user(
+            login_name,
+            password,
+            username,
+            mobile,
+            email,
+            gmt_create,
+            gmt_modified
+        )
+        values(
+            #{loginName},
+            #{password},
+            #{username},
+            #{mobile},
+            #{email},
+            #{gmtCreate},
+            #{gmtModified}
+        )
+    </insert>
+    <!-- 更新账号 -->
+    <update id="upd">
+        update x_user
+        <set>
+            <if test="password != null or password != ''">password=#{password},</if>
+            <if test="username != null or username != ''">username=#{username},</if>
+            <if test="mobile != null or mobile != ''">mobile=#{mobile},</if>
+            <if test="email != null or email != ''">email=#{email},</if>
+            <if test="gmtModified != null or gmtModified != ''">gmt_modified=#{gmtModified},</if>
+        </set>
+        <where>
+            xid=#{xId}
+        </where>
+    </update>
+    <!-- 删除账号 -->
+    <delete id="del">
+        delete from x_user
+        <where>
+            xid in 
+            <foreach collection="xIds" open="(" separator="," close=")" item="item">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
 </mapper>
