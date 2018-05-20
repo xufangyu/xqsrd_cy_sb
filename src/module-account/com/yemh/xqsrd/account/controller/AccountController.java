@@ -15,9 +15,9 @@ import com.yemh.xqsrd.account.service.AccountService;
 @RestController
 @RequestMapping("/user")
 public class AccountController {
+    
     @Autowired
     private AccountService accountService;
-    
 
     @RequestMapping(value = "/add", method=RequestMethod.POST)
     public String add(@RequestBody Map<String, Object> params) {

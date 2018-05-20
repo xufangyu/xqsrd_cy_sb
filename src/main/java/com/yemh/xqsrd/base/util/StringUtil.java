@@ -35,4 +35,11 @@ public class StringUtil {
         }
         return str1.equalsIgnoreCase(str2);
     }
+    
+    /**
+     * 获取Map里面的字符串
+     */
+    public static String getStringValue(Map<String, Object> params, String key) {
+        return params.containsKey(key)?(String)params.get(key):null;
+    }
 }

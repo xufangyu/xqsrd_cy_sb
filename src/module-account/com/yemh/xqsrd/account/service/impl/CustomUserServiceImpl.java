@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.yemh.xqsrd.account.mapper.IXLoginMapper;
@@ -22,11 +23,18 @@ public class CustomUserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        XUser user = ixLoginMapper.getByLoginName(username);
-//        user.setLoginName("yemh");
-        user.setPassword("{noop}" + user.getPassword());
-//        user.setxId(1L);
-//        User user = new User("yemh","1", null);
+        XUser user = null;
+        try {
+            user = ixLoginMapper.getByLoginName(username);
+            if(user == null) {
+                return user;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        user.setPassword("{noop}" + user.getPassword());
+        user.setPassword("{MD5}" + "{" + user.getLoginName() + "}" + user.getPassword());
+//        user.setPassword("{bcrypt}" + new BCryptPasswordEncoder().encode("111111"));
         System.out.println("**************************************************" + user.getUsername());
         return user;
     }

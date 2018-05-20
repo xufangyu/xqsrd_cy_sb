@@ -14,6 +14,7 @@ import com.github.pagehelper.PageRowBounds;
 import com.yemh.xqsrd.account.mapper.IXUserMapper;
 import com.yemh.xqsrd.account.service.AccountService;
 import com.yemh.xqsrd.base.util.DateTimeUtil;
+import com.yemh.xqsrd.base.util.MD5Util;
 import com.yemh.xqsrd.base.util.StringUtil;
 
 @Service("AccountServiceImpl")
@@ -31,7 +32,14 @@ public class AccountServiceImpl implements AccountService {
         String dateTime = DateTimeUtil.getSystemDate("yyyy-MM-dd HH:mm:ss");
         params.put("gmtCreate", dateTime);
         params.put("gmtModified", dateTime);
+        
+        String loginName = StringUtil.getStringValue(params,"loginName");
 
+        String password = StringUtil.getStringValue(params,"password");
+        // 使用"{登录名}"作为盐
+        password = MD5Util.getMD5(password + "{" + loginName + "}");
+        params.put("password", password);
+        
         int res;
         try {
             res = ixUserMapper.add(params);
@@ -61,6 +69,13 @@ public class AccountServiceImpl implements AccountService {
         // params.put("gmtCreate", dateTime);
         params.put("gmtModified", dateTime);
 
+        String loginName = StringUtil.getStringValue(params,"loginName");
+
+        String password = StringUtil.getStringValue(params,"password");
+        // 使用"{登录名}"作为盐
+        password = MD5Util.getMD5(password + "{" + loginName + "}");
+        params.put("password", password);
+        
         int res;
         try {
             res = ixUserMapper.upd(params);

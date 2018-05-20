@@ -23,7 +23,7 @@
         select
         <include refid="Base_Column_List" />
         from x_user
-        order by gmt_create DESC
+        order by gmt_modified DESC, gmt_create DESC
     </select>
     <!-- 添加账号 -->
     <insert id="add">

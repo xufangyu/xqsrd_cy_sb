@@ -9,9 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.lang.UsesUnsafeJava;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yemh.xqsrd.account.pojo.XUser;
+import com.yemh.xqsrd.base.util.StringUtil;
 import com.yemh.xqsrd.menu.mapper.IXMenuMapper;
 
 /**
@@ -26,17 +31,44 @@ public class MenuService {
     
     /**
      * 用于界面加载菜单时查询
+     * 查询当前登录用户的菜单
+     * @param securityContextImpl 
      */
-    public String getMenuList() {
+    public String getMenuList(SecurityContextImpl securityContextImpl) {
+        // 获取认证信息
+        Authentication authentication = securityContextImpl.getAuthentication();
+        // 获取用户信息
+        XUser xuser = (XUser)authentication.getPrincipal();
+        // 返回登录名和用户名
+        
+        
+        Map<String, Object> resUser = new HashMap<>();
+        resUser.put("loginName", xuser.getLoginName());
+        resUser.put("username", xuser.getUsername());
+        
+        
         List<Map<String, Object>> menuList = null;
         try {
             menuList = ixMenuMapper.getMenuList();
+            if(!StringUtil.isEmpty(menuList)) {
+                resUser.put("menuList", menuList);
+                JSONObject data = new JSONObject();
+                data.put("data", resUser);
+                data.put("msg", "获取当前登录用户信息成功");
+                data.put("code", 0);
+                
+                return JSONObject.toJSONString(data);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        List<Map<String, Object>> buildmenuList = buildMenu(menuList);
         
-        return JSONObject.toJSONString(menuList);
+        JSONObject data = new JSONObject();
+        data.put("data", resUser);
+        data.put("msg", "获取当前登录用户信息失败,菜单获取失败");
+        data.put("code", 1);
+        
+        return JSONObject.toJSONString(data);
     }
     
     /**

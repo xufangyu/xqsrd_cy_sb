@@ -33,23 +33,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers(
+            "/loginUser",
+            "/login",
             "/checkCode",
             "/menu/**",
             "/user/**");
         http.authorizeRequests()
-//            .antMatchers("/plugins/**", "/css/**", "/js/**", "/imag/**", "/**/favicon.ico").permitAll()
+            .antMatchers("/lib/**", "/css/**", "/js/**", "/imag/**", "/**/favicon.ico").permitAll()
             // 关闭鉴权
-            .antMatchers("/**").permitAll()
+//            .antMatchers("/**").permitAll()
             .anyRequest()
             .authenticated()
             .and()
             .formLogin()
                 .loginPage("/login")
                 .permitAll()
+                // 设置接收的前端传来的用户名密码字段
+//                .usernameParameter(usernameParameter)
+                .passwordParameter("password_md5")
             //设置默认登录成功跳转页面
-            .defaultSuccessUrl("/index")
+            .defaultSuccessUrl("/index.html")
 //            .successForwardUrl("/index")
-            .failureUrl("/login?error")
+            .failureUrl("/login.html?error")
                 .permitAll()
             .and()
             //记住登录暂时有bug
@@ -63,6 +68,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .headers()
                 .frameOptions()
                 .sameOrigin();
+        http.sessionManagement().
+        /**
+         * 同一个账号只能在一个地方登陆
+         */
+        maximumSessions(1);
+        /**
+         * 自定义session过期策略，替代默认的{@link ConcurrentSessionFilter.ResponseBodySessionInformationExpiredStrategy}，
+         * 复写onExpiredSessionDetected方法，默认方法只输出异常，没业务逻辑。这里需要返回json
+         */
+//        expiredSessionStrategy();
     }
 
     /**

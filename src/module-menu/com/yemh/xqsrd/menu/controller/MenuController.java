@@ -3,7 +3,10 @@ package com.yemh.xqsrd.menu.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,8 +25,10 @@ public class MenuController {
 
     
     @RequestMapping("/getMenuList")
-    public String getMenuList() {
-        String json = menuService.getMenuList();
+    public String getMenuList(HttpSession session) {
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl)session.getAttribute("SPRING_SECURITY_CONTEXT");
+        
+        String json = menuService.getMenuList(securityContextImpl);
         return json;
     }
     
