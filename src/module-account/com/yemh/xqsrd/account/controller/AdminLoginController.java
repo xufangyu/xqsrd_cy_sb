@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yemh.xqsrd.account.pojo.XUser;
 import com.yemh.xqsrd.account.service.AdminLoginService;
 
 @RestController
@@ -29,10 +30,11 @@ public class AdminLoginController {
      * 获取当前登录用户信息
      */
     @RequestMapping(value = "/loginUser", method=RequestMethod.GET)
-    public String loginUser(HttpSession session) {
-        SecurityContextImpl securityContextImpl = (SecurityContextImpl)session.getAttribute("SPRING_SECURITY_CONTEXT");
-        
-        String json = adminLogin.getLoginUserInfo(securityContextImpl);
+    public String loginUser(HttpSession session, Authentication authentication) {
+//        SecurityContextImpl securityContextImpl = (SecurityContextImpl)session.getAttribute("SPRING_SECURITY_CONTEXT");
+//        // 获取认证信息
+//        Authentication authentication1 = securityContextImpl.getAuthentication();
+        String json = adminLogin.getLoginUserInfo((XUser)authentication.getPrincipal());
 
         return json;
     }

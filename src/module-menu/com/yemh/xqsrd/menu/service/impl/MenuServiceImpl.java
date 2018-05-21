@@ -1,6 +1,5 @@
 package com.yemh.xqsrd.menu.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,42 +8,32 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.lang.UsesUnsafeJava;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yemh.xqsrd.account.pojo.XUser;
 import com.yemh.xqsrd.base.util.StringUtil;
 import com.yemh.xqsrd.menu.mapper.IXMenuMapper;
+import com.yemh.xqsrd.menu.service.MenuService;
 
 /**
  * @author yemh
  * @date 2018/04/26
  */
 @Service("MenuService")
-public class MenuService {
+public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private IXMenuMapper ixMenuMapper;
     
-    /**
-     * 用于界面加载菜单时查询
-     * 查询当前登录用户的菜单
-     * @param securityContextImpl 
+    /* (non-Javadoc)
+     * @see com.yemh.xqsrd.menu.service.impl.MenuService#getMenuList(com.yemh.xqsrd.account.pojo.XUser)
      */
-    public String getMenuList(SecurityContextImpl securityContextImpl) {
-        // 获取认证信息
-        Authentication authentication = securityContextImpl.getAuthentication();
-        // 获取用户信息
-        XUser xuser = (XUser)authentication.getPrincipal();
-        // 返回登录名和用户名
-        
-        
+    @Override
+    public String getMenuList(XUser xUser) {
         Map<String, Object> resUser = new HashMap<>();
-        resUser.put("loginName", xuser.getLoginName());
-        resUser.put("username", xuser.getUsername());
+        resUser.put("loginName", xUser.getLoginName());
+        resUser.put("username", xUser.getUsername());
         
         
         List<Map<String, Object>> menuList = null;
@@ -71,10 +60,10 @@ public class MenuService {
         return JSONObject.toJSONString(data);
     }
     
-    /**
-     * 获取所有菜单，菜单管理界面用
-     * @return
+    /* (non-Javadoc)
+     * @see com.yemh.xqsrd.menu.service.impl.MenuService#getAllMenuList()
      */
+    @Override
     public String getAllMenuList() {
         List<Map<String, Object>> menuList = null;
         try {
@@ -91,6 +80,10 @@ public class MenuService {
         return JSONObject.toJSONString(data);
     }
     
+    /* (non-Javadoc)
+     * @see com.yemh.xqsrd.menu.service.impl.MenuService#getParentMenuList()
+     */
+    @Override
     public String getParentMenuList() {
         List<Map<String, Object>> menuList = null;
         try {
@@ -134,6 +127,10 @@ public class MenuService {
         return newlist;
     }
 
+    /* (non-Javadoc)
+     * @see com.yemh.xqsrd.menu.service.impl.MenuService#addMenu(java.util.Map)
+     */
+    @Override
     public String addMenu(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
         result.put("state", "0");
@@ -161,6 +158,10 @@ public class MenuService {
         return JSONObject.toJSONString(result);
     }
 
+    /* (non-Javadoc)
+     * @see com.yemh.xqsrd.menu.service.impl.MenuService#updMenu(java.util.Map)
+     */
+    @Override
     public String updMenu(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();
         result.put("state", "0");

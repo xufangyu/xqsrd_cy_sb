@@ -1,9 +1,9 @@
 package com.yemh.xqsrd.account.service;
 
-import org.springframework.security.core.context.SecurityContextImpl;
+import com.yemh.xqsrd.account.pojo.XUser;
 
 public interface AdminLoginService {
 
-    String getLoginUserInfo(SecurityContextImpl securityContextImpl);
+    String getLoginUserInfo(XUser xuser);
 
 }

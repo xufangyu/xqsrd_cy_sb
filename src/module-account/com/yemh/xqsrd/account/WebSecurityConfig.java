@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 import com.yemh.xqsrd.account.service.impl.CustomUserServiceImpl;
+import com.yemh.xqsrd.bookmark.account.service.impl.LoginNameRememberServices;
 
 /**
  * @author yemh
@@ -24,6 +25,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     UserDetailsService customUserService() {
         return new CustomUserServiceImpl();
     }
+    
+    @Bean
+    LoginNameRememberServices loginNameRememberServices() {
+        return new LoginNameRememberServices("yemh", customUserService());
+    }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -52,16 +59,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .usernameParameter(usernameParameter)
                 .passwordParameter("password_md5")
             //设置默认登录成功跳转页面
-            .defaultSuccessUrl("/index.html")
+            .defaultSuccessUrl("/")
 //            .successForwardUrl("/index")
             .failureUrl("/login.html?error")
                 .permitAll()
             .and()
             //记住登录暂时有bug
-//            .rememberMe()
-//                .tokenValiditySeconds(24 * 3600 * 14)
-//                .key("yemh")
-//            .and()
+            .rememberMe()
+                .rememberMeServices(loginNameRememberServices())
+                .tokenValiditySeconds(24 * 3600 * 14)
+                .key("yemh")
+            .and()
             .logout()
                 .permitAll()
             .and()

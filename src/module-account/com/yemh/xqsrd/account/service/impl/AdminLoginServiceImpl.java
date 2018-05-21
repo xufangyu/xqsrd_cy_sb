@@ -15,11 +15,10 @@ import com.yemh.xqsrd.account.service.AdminLoginService;
 public class AdminLoginServiceImpl implements AdminLoginService {
 
     @Override
-    public String getLoginUserInfo(SecurityContextImpl securityContextImpl) {
-        // 获取认证信息
-        Authentication authentication = securityContextImpl.getAuthentication();
+    public String getLoginUserInfo(XUser xuser) {
+
         // 获取用户信息
-        XUser xuser = (XUser)authentication.getPrincipal();
+//        XUser xuser = (XUser)authentication.getPrincipal();
         // 返回登录名和用户名
         
         

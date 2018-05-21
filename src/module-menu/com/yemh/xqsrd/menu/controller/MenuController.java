@@ -1,17 +1,18 @@
 package com.yemh.xqsrd.menu.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yemh.xqsrd.menu.service.impl.MenuService;
+import com.yemh.xqsrd.account.pojo.XUser;
+import com.yemh.xqsrd.menu.service.MenuService;
 
 /**
  * @author yemh
@@ -25,10 +26,10 @@ public class MenuController {
 
     
     @RequestMapping("/getMenuList")
-    public String getMenuList(HttpSession session) {
+    public String getMenuList(HttpSession session,Authentication authentication) {
         SecurityContextImpl securityContextImpl = (SecurityContextImpl)session.getAttribute("SPRING_SECURITY_CONTEXT");
         
-        String json = menuService.getMenuList(securityContextImpl);
+        String json = menuService.getMenuList((XUser)authentication.getPrincipal());
         return json;
     }
     
