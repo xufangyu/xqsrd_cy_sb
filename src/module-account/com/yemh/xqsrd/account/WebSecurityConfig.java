@@ -4,14 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
+import com.yemh.xqsrd.account.security.web.authentication.LoginNameRememberServices;
+import com.yemh.xqsrd.account.security.web.authentication.XAuthenticationFailureHandler;
 import com.yemh.xqsrd.account.service.impl.CustomUserServiceImpl;
-import com.yemh.xqsrd.bookmark.account.service.impl.LoginNameRememberServices;
 
 /**
  * @author yemh
@@ -21,16 +20,32 @@ import com.yemh.xqsrd.bookmark.account.service.impl.LoginNameRememberServices;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * 密码校验处理
+     * @return
+     */
     @Bean
     UserDetailsService customUserService() {
         return new CustomUserServiceImpl();
     }
     
+    /**
+     * 记住用户处理
+     * @return
+     */
     @Bean
     LoginNameRememberServices loginNameRememberServices() {
         return new LoginNameRememberServices("yemh", customUserService());
     }
 
+    /**
+     * 登录失败处理
+     * @return
+     */
+    @Bean
+    XAuthenticationFailureHandler xAuthenticationFailureHandler() {
+        return new XAuthenticationFailureHandler();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -61,7 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             //设置默认登录成功跳转页面
             .defaultSuccessUrl("/")
 //            .successForwardUrl("/index")
-            .failureUrl("/login.html?error")
+            .failureHandler(xAuthenticationFailureHandler())
                 .permitAll()
             .and()
             //记住登录暂时有bug

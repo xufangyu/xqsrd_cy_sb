@@ -1,4 +1,4 @@
-package com.yemh.xqsrd.bookmark.account.service.impl;
+package com.yemh.xqsrd.account.security.web.authentication;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
