@@ -1,4 +1,4 @@
-package com.yemh.xqsrd.account.controller;
+package com.yemh.xqsrd.socket.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -9,7 +9,7 @@ import com.yemh.xqsrd.account.service.AdminLoginService;
 import com.yemh.xqsrd.socket.service.impl.XSocketEvent;
 
 @RestController
-public class AdminLoginController {
+public class XSocketPublishController {
     
     @Autowired
     private AdminLoginService adminLogin;

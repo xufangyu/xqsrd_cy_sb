@@ -35,7 +35,7 @@ public class CustomUserServiceImpl implements UserDetailsService {
 //        user.setPassword("{noop}" + user.getPassword());
         user.setPassword("{MD5}" + "{" + user.getLoginName() + "}" + user.getPassword());
 //        user.setPassword("{bcrypt}" + new BCryptPasswordEncoder().encode("111111"));
-        System.out.println("**************************************************" + user.getUsername());
+//        System.out.println("**************************************************" + user.getUsername());
         return user;
     }
 

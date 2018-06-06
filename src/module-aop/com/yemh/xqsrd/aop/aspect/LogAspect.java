@@ -1,4 +1,4 @@
-package com.yemh.xqsrd.aop;
+package com.yemh.xqsrd.aop.aspect;
 
 import java.util.Arrays;
 
@@ -13,12 +13,14 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Aspect  
+@Component 
 public class LogAspect {  
-    @Pointcut("execution(public * com.example.controller.*.*(..))")  
+    @Pointcut("execution(public * com.yemh.xqsrd.*.controller.*.*(..))")  
     public void webLog(){}  
   
     @Before("webLog()")  
@@ -36,7 +38,7 @@ public class LogAspect {
     }  
   
     @AfterReturning(returning = "ret", pointcut = "webLog()")  
-    public void doAfterReturning(Object ret) throws Throwable {  
+    public void doAfterReturning(JoinPoint joinPoint, Object ret) throws Throwable {  
         // 处理完请求，返回内容  
         System.out.println("方法的返回值 : " + ret);  
     }  

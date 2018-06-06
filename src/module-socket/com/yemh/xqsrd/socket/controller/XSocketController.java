@@ -21,11 +21,6 @@ public class XSocketController {
     @Autowired
     private AdminLoginService adminLogin;
 
-    @RequestMapping("/")
-    String index() {
-        return "Hello website account module";
-    }
-    
     /**
      * 获取当前登录用户信息
      */

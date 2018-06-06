@@ -18,6 +18,11 @@ public class AccountController {
     
     @Autowired
     private AccountService accountService;
+    
+    @RequestMapping("/")
+    String index() {
+        return "Hello website account module";
+    }
 
     @RequestMapping(value = "/add", method=RequestMethod.POST)
     public String add(@RequestBody Map<String, Object> params) {
