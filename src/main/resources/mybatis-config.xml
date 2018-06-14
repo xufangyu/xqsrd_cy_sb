@@ -3,10 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<!-- 驼峰命名规则 -->
+	<!-- 驼峰命名规则 ,spring boot 此次设置无法生效
 	<settings>
 		<setting name="mapUnderscoreToCamelCase" value="true"></setting>
-	</settings>
+	</settings>-->
 	<typeAliases>
         <typeAlias alias="Integer" type="java.lang.Integer" />
         <typeAlias alias="Long" type="java.lang.Long" />

@@ -4,7 +4,7 @@ package com.yemh.xqsrd.account.pojo;
  * @author yemh
  * @date 2018/04/14
  */
-public class XRoles {
+public class XRole {
 
     private Long xId;
     private String name;

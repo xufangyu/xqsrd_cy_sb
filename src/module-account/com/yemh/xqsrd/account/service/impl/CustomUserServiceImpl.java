@@ -1,5 +1,7 @@
 package com.yemh.xqsrd.account.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.yemh.xqsrd.account.mapper.IXLoginMapper;
 import com.yemh.xqsrd.account.mapper.IXUserMapper;
+import com.yemh.xqsrd.account.pojo.XMenuPermission;
+import com.yemh.xqsrd.account.pojo.XRole;
 import com.yemh.xqsrd.account.pojo.XUser;
 
 /**
@@ -25,13 +29,30 @@ public class CustomUserServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         XUser user = null;
         try {
-            user = ixLoginMapper.getByLoginName(username);
-            if(user == null) {
-                return user;
-            }
+            user = ixLoginMapper.getUserByLoginName(username);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if(user == null) {
+            throw new UsernameNotFoundException("");
+//                return user;
+        }
+        // 获取角色
+        List<XRole> roles = null;
+        try {
+            roles = ixLoginMapper.getRoleByUserId(user.getxId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // 获取权限
+        List<XMenuPermission> perms = null;
+        try {
+            perms = ixLoginMapper.getPermissionByRoleId(roles);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
 //        user.setPassword("{noop}" + user.getPassword());
         user.setPassword("{MD5}" + "{" + user.getLoginName() + "}" + user.getPassword());
 //        user.setPassword("{bcrypt}" + new BCryptPasswordEncoder().encode("111111"));

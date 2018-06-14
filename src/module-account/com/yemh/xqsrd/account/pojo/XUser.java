@@ -25,7 +25,7 @@ public class XUser implements UserDetails {
     private String loginTime;
     private String lastLoginTime;
     
-    private List<XRoles> roles;
+    private List<XRole> roles;
 
     /** 
      * 从角色中获得所有权限,
@@ -33,8 +33,8 @@ public class XUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
-        List<XRoles> roles = this.getRoles();
-        for (XRoles xRoles : roles) {
+        List<XRole> roles = this.getRoles();
+        for (XRole xRoles : roles) {
             auths.add(new SimpleGrantedAuthority(xRoles.getName()));
         }
         return auths;
@@ -104,9 +104,9 @@ public class XUser implements UserDetails {
     }
 
 
-    public List<XRoles> getRoles() {
+    public List<XRole> getRoles() {
         //手工设置一个role
-        XRoles xr = new XRoles();
+        XRole xr = new XRole();
         xr.setName("USER");
         roles = new ArrayList<>();
         roles.add(xr);
@@ -114,7 +114,7 @@ public class XUser implements UserDetails {
     }
 
 
-    public void setRoles(List<XRoles> roles) {
+    public void setRoles(List<XRole> roles) {
         this.roles = roles;
     }
 

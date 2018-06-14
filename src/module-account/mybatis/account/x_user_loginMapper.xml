@@ -3,17 +3,37 @@
 <mapper namespace="com.yemh.xqsrd.account.mapper.IXLoginMapper">
     <!-- 结果集 -->
     <resultMap id="BaseResultMap" type="xuser" >
-        <id column="id" property="id" jdbcType="BIGINT" />
+        <id column="xid" property="xId" jdbcType="BIGINT" />
         <result column="username" property="username" jdbcType="VARCHAR" />
         <result column="password" property="password" jdbcType="VARCHAR" />
         <result column="login_name" property="loginName" jdbcType="VARCHAR" />
 <!--         <result column="user_sex" property="userSex" javaType="com.neo.enums.UserSexEnum"/> -->
     </resultMap>
     <!-- 登录查询 -->
-	<select id="getByLoginName" parameterType="string" resultMap="BaseResultMap">
+	<select id="getUserByLoginName" parameterType="string" resultMap="BaseResultMap">
 		select *
 		from x_user
 		where login_name = #{loginName,jdbcType=BIGINT}
 	</select>
+	<!-- 查询角色 -->
+    <select id="getRoleByUserId" parameterType="long" resultType="xrole">
+        select xr.*
+        from x_user_role xur
+        right join x_role xr on xur.x_role_id = xr.xid
+        where xur.x_user_id = #{xId,jdbcType=BIGINT}
+    </select>
+    <!-- 查询权限 -->
+    <select id="getPermissionByRoleId" parameterType="list" resultType="xmenupermission">
+        select distinct xp.*
+<!--         xp.xid xId,
+        xp.permission_name permissionName,
+        xp.permission_description permissionDescription -->
+        from x_role_permission xrp
+        right join x_permission xp on xrp.x_permission_id = xp.xid
+        where xrp.x_role_id in 
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item.xId}
+        </foreach>
+    </select>
 	
 </mapper>

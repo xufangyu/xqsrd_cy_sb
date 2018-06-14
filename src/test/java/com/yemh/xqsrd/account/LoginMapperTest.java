@@ -30,7 +30,7 @@ public class LoginMapperTest {
 
     @Test
     public void testQuery() throws Exception {
-        XUser users = ixLoginMapper.getByLoginName("yemh");
+        XUser users = ixLoginMapper.getUserByLoginName("yemh");
         System.out.println(users.toString());
         Assert.assertNotNull(users);
     }

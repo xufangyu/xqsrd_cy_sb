@@ -21,9 +21,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Component 
 public class LogAspect {  
     @Pointcut("execution(public * com.yemh.xqsrd.*.controller.*.*(..))")  
-    public void webLog(){}  
+    public void xqsrdLog(){}  
   
-    @Before("webLog()")  
+    @Before("xqsrdLog()")  
     public void deBefore(JoinPoint joinPoint) throws Throwable {  
         // 接收到请求，记录请求内容  
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();  
@@ -37,26 +37,26 @@ public class LogAspect {
   
     }  
   
-    @AfterReturning(returning = "ret", pointcut = "webLog()")  
+    @AfterReturning(returning = "ret", pointcut = "xqsrdLog()")  
     public void doAfterReturning(JoinPoint joinPoint, Object ret) throws Throwable {  
         // 处理完请求，返回内容  
         System.out.println("方法的返回值 : " + ret);  
     }  
   
     //后置异常通知  
-    @AfterThrowing("webLog()")  
+    @AfterThrowing("xqsrdLog()")  
     public void throwss(JoinPoint jp){  
         System.out.println("方法异常时执行.....");  
     }  
   
     //后置最终通知,final增强，不管是抛出异常或者正常退出都会执行  
-    @After("webLog()")  
+    @After("xqsrdLog()")  
     public void after(JoinPoint jp){  
         System.out.println("方法最后执行.....");  
     }  
   
     //环绕通知,环绕增强，相当于MethodInterceptor  
-    @Around("webLog()")  
+    @Around("xqsrdLog()")  
     public Object arround(ProceedingJoinPoint pjp) {  
         System.out.println("方法环绕start.....");  
         try {  

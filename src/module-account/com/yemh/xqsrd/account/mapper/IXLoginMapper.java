@@ -2,10 +2,16 @@ package com.yemh.xqsrd.account.mapper;
 
 import java.util.List;
 
+import com.yemh.xqsrd.account.pojo.XMenuPermission;
+import com.yemh.xqsrd.account.pojo.XRole;
 import com.yemh.xqsrd.account.pojo.XUser;
 
 public interface IXLoginMapper {
 
-    XUser getByLoginName(String loginName);
+    XUser getUserByLoginName(String loginName);
+
+    List<XRole> getRoleByUserId(Long getxId);
+
+    List<XMenuPermission> getPermissionByRoleId(List<XRole> roles);
     
 }
