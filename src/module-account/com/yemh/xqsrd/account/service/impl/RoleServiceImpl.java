@@ -11,18 +11,23 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageRowBounds;
+import com.yemh.xqsrd.account.mapper.IXRoleMapper;
 import com.yemh.xqsrd.account.mapper.IXUserMapper;
 import com.yemh.xqsrd.account.service.AccountService;
+import com.yemh.xqsrd.account.service.RoleService;
 import com.yemh.xqsrd.base.util.DateTimeUtil;
 import com.yemh.xqsrd.base.util.MD5Util;
 import com.yemh.xqsrd.base.util.StringUtil;
 
-@Service("AccountServiceImpl")
-public class AccountServiceImpl implements AccountService {
+@Service("RoleServiceImpl")
+public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    private IXUserMapper ixUserMapper;
+    private IXRoleMapper ixRoleMapper;
 
+    /* (non-Javadoc)
+     * @see com.yemh.xqsrd.account.service.impl.RoleService#add(java.util.Map)
+     */
     @Override
     public String add(Map<String, Object> params) {
 
@@ -30,18 +35,21 @@ public class AccountServiceImpl implements AccountService {
         params.put("gmtCreate", dateTime);
         params.put("gmtModified", dateTime);
         
-        String loginName = StringUtil.getStringValue(params,"loginName");
+        String roleName = StringUtil.getStringValue(params,"roleName");
 
-        String password = StringUtil.getStringValue(params,"password");
-        // 使用"{登录名}"作为盐
-        password = MD5Util.getMD5(password + "{" + loginName + "}");
-        params.put("password", password);
+        String roleDescription = StringUtil.getStringValue(params,"roleDescription");
+        params.put("roleName", roleName);
+        params.put("roleDescription", roleDescription);
         
         int res;
         try {
-            res = ixUserMapper.add(params);
-            if (res < 0) {
-
+            res = ixRoleMapper.add(params);
+            if (res > 0) {
+                JSONObject data = new JSONObject();
+                data.put("data", "");
+                data.put("msg", "添加账号成功");
+                data.put("code", 0);
+                return JSONObject.toJSONString(data);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,6 +68,9 @@ public class AccountServiceImpl implements AccountService {
         return JSONObject.toJSONString(data);
     }
 
+    /* (non-Javadoc)
+     * @see com.yemh.xqsrd.account.service.impl.RoleService#upd(java.util.Map)
+     */
     @Override
     public String upd(Map<String, Object> params) {
         String dateTime = DateTimeUtil.getSystemDate("yyyy-MM-dd HH:mm:ss");
@@ -75,7 +86,7 @@ public class AccountServiceImpl implements AccountService {
         
         int res;
         try {
-            res = ixUserMapper.upd(params);
+            res = ixRoleMapper.upd(params);
             if (res < 0) {
 
             }
@@ -96,6 +107,9 @@ public class AccountServiceImpl implements AccountService {
         return JSONObject.toJSONString(data);
     }
 
+    /* (non-Javadoc)
+     * @see com.yemh.xqsrd.account.service.impl.RoleService#del(java.util.Map)
+     */
     @Override
     public String del(Map<String, Object> params) {
         // JSONObject json = (JSONObject)JSONObject.toJSON(params);
@@ -115,7 +129,7 @@ public class AccountServiceImpl implements AccountService {
 
         int res;
         try {
-            res = ixUserMapper.del(params);
+            res = ixRoleMapper.del(params);
             if (res <= 0) {
                 JSONObject data = new JSONObject();
                 data.put("data", "");
@@ -141,6 +155,9 @@ public class AccountServiceImpl implements AccountService {
         return JSONObject.toJSONString(data);
     }
 
+    /* (non-Javadoc)
+     * @see com.yemh.xqsrd.account.service.impl.RoleService#getList(java.util.Map)
+     */
     @Override
     public String getList(Map<String, Object> params) {
 
@@ -158,23 +175,26 @@ public class AccountServiceImpl implements AccountService {
             pageSize = Integer.parseInt(limit);
         }
 
-        Page<Map<String, Object>> userList = null;
+        Page<Map<String, Object>> pageList = null;
         try {
-            userList = ixUserMapper.getUserList(new PageRowBounds(pageNum, pageSize), params);
+            pageList = ixRoleMapper.getRoleList(new PageRowBounds(pageNum, pageSize), params);
         } catch (Exception e) {
             e.printStackTrace();
         }
         JSONObject data = new JSONObject();
-        data.put("data", userList);
-        data.put("count", userList.getTotal());
+        data.put("data", pageList);
+        data.put("count", pageList.getTotal());
         data.put("msg", "获取所有菜单成功");
         data.put("code", 0);
 
         return JSONObject.toJSONString(data);
     }
 
+    /* (non-Javadoc)
+     * @see com.yemh.xqsrd.account.service.impl.RoleService#getUserById(java.util.Map)
+     */
     @Override
-    public String getUserById(Map<String, Object> params) {
+    public String getRoleById(Map<String, Object> params) {
         // TODO Auto-generated method stub
         return null;
     }

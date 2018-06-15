@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yemh.xqsrd.account.mapper.IXRoleMapper">
+    <!-- 结果集 -->
+    <resultMap id="BaseResultMap" type="java.util.LinkedHashMap" >
+        <result column="xid" property="xId" jdbcType="BIGINT" />
+        <result column="role_name" property="loginName" jdbcType="VARCHAR" />
+        <result column="role_description" property="roleDescription" jdbcType="VARCHAR" />
+    </resultMap>
+	<sql id="Base_Column_List">
+		xid xId, 
+		role_name roleName,
+		role_description roleDescription,  
+        DATE_FORMAT(gmt_create,'%Y-%m-%d %h:%m:%s') gmtCreate, 
+        DATE_FORMAT(gmt_modified,'%Y-%m-%d %h:%m:%s') gmtModified
+	</sql>
+	<!-- 查询List    resultType="java.util.LinkedHashMap"-->
+    <select id="getRoleList" parameterType="Map" resultType="java.util.LinkedHashMap" >
+        select
+        <include refid="Base_Column_List" />
+        from x_role
+        order by gmt_modified DESC, gmt_create DESC
+    </select>
+    <!-- 添加 -->
+    <insert id="add">
+        insert into x_role(
+            role_name,
+            role_description,
+            gmt_create,
+            gmt_modified
+        )
+        values(
+            #{roleName},
+            #{roleDescription},
+            #{gmtCreate},
+            #{gmtModified}
+        )
+    </insert>
+    <!-- 更新 -->
+    <update id="upd">
+        update x_role
+        <set>
+            <if test="roleName != null or roleName != ''">role_name=#{roleName},</if>
+            <if test="roleDescription != null or roleDescription != ''">role_description=#{roleDescription},</if>
+            <if test="gmtModified != null or gmtModified != ''">gmt_modified=#{gmtModified},</if>
+        </set>
+        <where>
+            xid=#{xId}
+        </where>
+    </update>
+    <!-- 删除 -->
+    <delete id="del">
+        delete from x_role
+        <where>
+            xid in 
+            <foreach collection="xIds" open="(" separator="," close=")" item="item">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+</mapper>
