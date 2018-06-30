@@ -24,6 +24,7 @@
 		<java.version>1.8</java.version>
         <json.version>2.9.5</json.version>
         <fastjson.version>1.2.47</fastjson.version>
+        <disruptor.version>3.4.2</disruptor.version>
 	</properties>
 
 	<dependencies>
@@ -101,6 +102,13 @@
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
         </dependency>
+        <!-- log4j2异步输出依赖 -->
+		<dependency>
+		    <groupId>com.lmax</groupId>
+		    <artifactId>disruptor</artifactId>
+		    <version>${disruptor.version}</version>
+		</dependency>
+        
 	</dependencies>
 
 	<build>

@@ -45,12 +45,13 @@ public class LogAspect extends AbstractBase{
     public void doAfterReturning(JoinPoint joinPoint, Object ret) throws Throwable {  
         // 处理完请求，返回内容  
         logger.debug("方法的返回值 : " + ret);  
-        logger.trace("方法的返回值 : trace");  
+        logger.traceEntry();  
         logger.debug("方法的返回值 : debug");  
         logger.info("方法的返回值 : info");  
         logger.warn("方法的返回值 : warn");  
         logger.error("方法的返回值 : error");  
         logger.fatal("方法的返回值 : fatal");  
+        logger.traceExit();  
     }  
   
     //后置异常通知  
