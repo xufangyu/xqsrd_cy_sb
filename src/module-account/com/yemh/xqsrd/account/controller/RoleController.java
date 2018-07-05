@@ -41,8 +41,8 @@ public class RoleController {
         return json;
     }
     
-    @RequestMapping(value = "/getList", method=RequestMethod.GET)
-    public String getList(@RequestParam Map<String, Object> params) {
+    @RequestMapping(value = "/getList", method=RequestMethod.POST)
+        public String getList(@RequestBody Map<String, Object> params) {
 //        public String getList(@RequestParam String page, @RequestParam String limit, @RequestBody Map<String, Object> params) {
         String json = roleService.getList(params);
         return json;

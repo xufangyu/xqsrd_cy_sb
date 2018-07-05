@@ -161,19 +161,19 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public String getList(Map<String, Object> params) {
 
-        int pageNum = 0, pageSize = 0;
-        String page = (String)params.get("page");
-        if (StringUtil.isEmpty(page)) {
-            pageNum = 1;
-        } else {
-            pageNum = Integer.parseInt(page);
-        }
-        String limit = (String)params.get("limit");
-        if (StringUtil.isEmpty(limit)) {
-            pageSize = 20;
-        } else {
-            pageSize = Integer.parseInt(limit);
-        }
+        int pageNum = 0, pageSize = 20;
+        pageNum = (int)params.get("page");
+//        if (StringUtil.isEmpty(page)) {
+//            pageNum = 1;
+//        } else {
+//            pageNum = Integer.parseInt(page);
+//        }
+        pageSize = (int)params.get("limit");
+//        if (StringUtil.isEmpty(limit)) {
+//            pageSize = 20;
+//        } else {
+//            pageSize = Integer.parseInt(limit);
+//        }
 
         Page<Map<String, Object>> pageList = null;
         try {

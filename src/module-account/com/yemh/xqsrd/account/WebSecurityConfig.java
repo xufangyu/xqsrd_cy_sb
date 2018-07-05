@@ -54,11 +54,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // 添加csrf忽略
         http.csrf().ignoringAntMatchers(
             "/loginUser",
             "/login",
             "/checkCode",
             "/menu/**",
+            "/role/**",
             "/user/**");
         http.authorizeRequests()
             .antMatchers("/lib/**", "/css/**", "/js/**", "/imag/**", "/**/favicon.ico").permitAll()

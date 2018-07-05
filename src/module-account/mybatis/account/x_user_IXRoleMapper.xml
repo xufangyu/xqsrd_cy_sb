@@ -19,6 +19,16 @@
         select
         <include refid="Base_Column_List" />
         from x_role
+        <where>
+            <if test="roleName != null and roleName != ''"><![CDATA[ and role_name like concat(concat('%',#{roleName}),'%')]]></if>
+            <if test="roleDescription != null and roleDescription != ''"><![CDATA[ and role_description like concat(concat('%',#{roleDescription}),'%')]]></if>
+            <if test="keyword != null and keyword != ''">
+            <![CDATA[ or role_name like concat(concat('%',#{keyword}),'%')]]>
+            <![CDATA[ or role_description like concat(concat('%',#{keyword}),'%')]]>
+            </if>
+            <if test="gmtCreate_min != null and gmtCreate_min != ''"><![CDATA[ and gmt_create > #{gmtCreate_min}]]></if>
+            <if test="gmtCreate_max != null and gmtCreate_max != ''"><![CDATA[ and gmt_create < #{gmtCreate_max}]]></if>
+        </where>
         order by gmt_modified DESC, gmt_create DESC
     </select>
     <!-- 添加 -->

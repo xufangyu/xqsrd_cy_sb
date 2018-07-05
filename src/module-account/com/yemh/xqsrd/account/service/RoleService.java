@@ -12,6 +12,8 @@ public interface RoleService {
 
     String getList(Map<String, Object> params);
 
+//    String getList(String params);
+
     String getRoleById(Map<String, Object> params);
 
 }
