@@ -30,7 +30,7 @@ public class MenuServiceImpl implements MenuService {
      * @see com.yemh.xqsrd.menu.service.impl.MenuService#getMenuList(com.yemh.xqsrd.account.pojo.XUser)
      */
     @Override
-    public String getMenuList(XUser xUser) {
+    public String getUserMenuList(XUser xUser) {
         Map<String, Object> resUser = new HashMap<>();
         resUser.put("loginName", xUser.getLoginName());
         resUser.put("username", xUser.getUsername());
@@ -38,7 +38,7 @@ public class MenuServiceImpl implements MenuService {
         
         List<Map<String, Object>> menuList = null;
         try {
-            menuList = ixMenuMapper.getMenuList();
+            menuList = ixMenuMapper.getUserMenuList();
             if(!StringUtil.isEmpty(menuList)) {
                 resUser.put("menuList", menuList);
                 JSONObject data = new JSONObject();
@@ -56,26 +56,6 @@ public class MenuServiceImpl implements MenuService {
         data.put("data", resUser);
         data.put("msg", "获取当前登录用户信息失败,菜单获取失败");
         data.put("code", 1);
-        
-        return JSONObject.toJSONString(data);
-    }
-    
-    /* (non-Javadoc)
-     * @see com.yemh.xqsrd.menu.service.impl.MenuService#getAllMenuList()
-     */
-    @Override
-    public String getAllMenuList() {
-        List<Map<String, Object>> menuList = null;
-        try {
-            menuList = ixMenuMapper.getAllMenuList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        JSONObject data = new JSONObject();
-        data.put("data", menuList);
-        data.put("count", menuList.size());
-        data.put("msg", "获取所有菜单成功");
-        data.put("code", 0);
         
         return JSONObject.toJSONString(data);
     }
@@ -188,5 +168,55 @@ public class MenuServiceImpl implements MenuService {
         return JSONObject.toJSONString(result);
     }
 
+    @Override
+    public String getList(Map<String, Object> params) {
+        List<Map<String, Object>> menuList = null;
+        try {
+            menuList = ixMenuMapper.getList(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", menuList);
+        data.put("count", menuList.size());
+        data.put("msg", "获取所有菜单成功");
+        data.put("code", 0);
+        
+        return JSONObject.toJSONString(data);
+    }
+
+    @Override
+    public String getMenuListWithPermId(Map<String, Object> params) {
+        List<Map<String, Object>> menuList = null;
+        try {
+            menuList = ixMenuMapper.getMenuListWithPermId(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", menuList);
+        data.put("count", menuList.size());
+        data.put("msg", "获取所有菜单成功");
+        data.put("code", 0);
+        
+        return JSONObject.toJSONString(data);
+    }
+    
+    @Override
+    public String getAllMenuList() {
+        List<Map<String, Object>> menuList = null;
+        try {
+            menuList = ixMenuMapper.getAllMenuList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", menuList);
+        data.put("count", menuList.size());
+        data.put("msg", "获取所有菜单成功");
+        data.put("code", 0);
+        
+        return JSONObject.toJSONString(data);
+    }
 
 }

@@ -59,9 +59,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/loginUser",
             "/login",
             "/checkCode",
-            "/menu/**",
+            "/user/**",
             "/role/**",
-            "/user/**");
+            "/permMenu/**",
+            "/menu/**"
+            );
         http.authorizeRequests()
             .antMatchers("/lib/**", "/css/**", "/js/**", "/imag/**", "/**/favicon.ico").permitAll()
             // 关闭鉴权

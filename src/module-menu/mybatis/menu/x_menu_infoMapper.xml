@@ -10,7 +10,7 @@
 <!--         <result column="user_sex" property="userSex" javaType="com.neo.enums.UserSexEnum"/> -->
     </resultMap>
     <!-- 登录查询 -->
-	<select id="getMenuList" resultType="java.util.LinkedHashMap">
+	<select id="getUserMenuList" resultType="java.util.LinkedHashMap">
 		select 
         xid 'xId',
         menu_name 'title',
@@ -23,20 +23,6 @@
 		from x_menu order by pos
 	</select>
 	
-	<!-- 管理查询，获取所有菜单 -->
-    <select id="getAllMenuList" resultType="java.util.LinkedHashMap">
-        select 
-        xid 'xId',
-        menu_name 'menuName',
-        menu_path 'menuPath',
-        menu_component 'menuComponent',
-        menu_icon 'icon',
-        parent_id 'parentId',
-        is_leaf 'leaf',
-        pos 'pos'
-        from x_menu order by pos
-    </select>
-    
     <!-- 管理查询，获取所有父节点菜单 -->
     <select id="getParentMenuList" resultType="java.util.LinkedHashMap">
         select 
@@ -96,4 +82,52 @@
         </where>
     
     </update>
+    <!-- 查询，根据参数获取菜单 -->
+    <select id="getList" resultType="java.util.LinkedHashMap">
+        select 
+        xid 'xId',
+        menu_name 'menuName',
+        menu_path 'menuPath',
+        menu_component 'menuComponent',
+        menu_icon 'icon',
+        parent_id 'parentId',
+        is_leaf 'leaf',
+        pos 'pos'
+        from x_menu order by pos
+    </select>
+    
+    <!-- 查询，根据权限id参数获取菜单 -->
+    <select id="getMenuListWithPermId" resultType="java.util.LinkedHashMap">
+        select 
+        xid 'xId',
+<!--         ,menu_name 'menuName',
+        menu_path 'menuPath',
+        menu_component 'menuComponent',
+        menu_icon 'icon',
+        parent_id 'parentId',
+        is_leaf 'leaf',
+        pos 'pos' -->
+        from x_menu t1
+        left join x_permission_menu t2
+        on t1.xid = t2.x_menu_xid
+        <where>
+            <if test="permissionId != null and permissionId !=''">t2.x_permission_id=#{permissionId}</if>
+        </where>
+        order by pos
+    </select>
+    
+    <!-- 管理查询，获取所有菜单,给管理权限界面用 -->
+    <select id="getAllMenuList" resultType="java.util.LinkedHashMap">
+        select 
+        xid 'id',
+        <!-- xid 'xId', -->
+        menu_name 'menuName',
+        menu_path 'menuPath',
+        menu_component 'menuComponent',
+        menu_icon 'icon',
+        parent_id 'parentId',
+        is_leaf 'leaf',
+        pos 'pos'
+        from x_menu order by pos
+    </select>
 </mapper>

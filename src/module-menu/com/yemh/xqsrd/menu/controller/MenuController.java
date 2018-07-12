@@ -25,17 +25,11 @@ public class MenuController {
     private MenuService menuService;
 
     
-    @RequestMapping("/getMenuList")
+    @RequestMapping("/getUserMenuList")
     public String getMenuList(HttpSession session,Authentication authentication) {
         SecurityContextImpl securityContextImpl = (SecurityContextImpl)session.getAttribute("SPRING_SECURITY_CONTEXT");
         
-        String json = menuService.getMenuList((XUser)authentication.getPrincipal());
-        return json;
-    }
-    
-    @RequestMapping("/getAllMenuList")
-    public String getAllMenuList() {
-        String json = menuService.getAllMenuList();
+        String json = menuService.getUserMenuList((XUser)authentication.getPrincipal());
         return json;
     }
     
@@ -54,6 +48,27 @@ public class MenuController {
     @RequestMapping("/updMenu")
     public String updMenu(@RequestBody Map<String, Object> params) {
         String json = menuService.updMenu(params);
+        return json;
+    }
+    
+    @RequestMapping("/getList")
+    public String getList(@RequestBody Map<String, Object> params) {
+        String json = menuService.getList(params);
+        return json;
+    }
+    
+    /**
+     * 根据权限id获取菜单列表
+     */
+    @RequestMapping("/getMenuListWithPermId")
+    public String getMenuListWithPermId(@RequestBody Map<String, Object> params) {
+        String json = menuService.getMenuListWithPermId(params);
+        return json;
+    }
+    
+    @RequestMapping("/getAllMenuList")
+    public String getAllMenuList() {
+        String json = menuService.getAllMenuList();
         return json;
     }
 }

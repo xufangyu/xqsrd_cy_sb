@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yemh.xqsrd.account.mapper.IXPermissionMenuMapper">
+    <!-- 结果集 -->
+    <resultMap id="BaseResultMap" type="java.util.LinkedHashMap" >
+        <result column="xid" property="xId" jdbcType="BIGINT" />
+        <result column="permission_name" property="loginName" jdbcType="VARCHAR" />
+        <result column="permission_description" property="permissionDescription" jdbcType="VARCHAR" />
+    </resultMap>
+	<sql id="Base_Column_List">
+		xid xId, 
+		permission_name permissionName,
+		permission_description permissionDescription,  
+        DATE_FORMAT(gmt_create,'%Y-%m-%d %h:%m:%s') gmtCreate, 
+        DATE_FORMAT(gmt_modified,'%Y-%m-%d %h:%m:%s') gmtModified
+	</sql>
+	<!-- 查询List    resultType="java.util.LinkedHashMap"-->
+    <select id="getList" parameterType="Map" resultType="java.util.LinkedHashMap" >
+        select
+        <include refid="Base_Column_List" />
+        ,(select GROUP_CONCAT(distinct x_menu_xid separator ',') 
+			from x_permission_menu t3,x_permissionMenu t2
+			where t3.x_permissionmenu_xid = t1.xid
+		) permMenuIds
+        from x_permissionMenu t1
+        <where>
+            <if test="permissionName != null and permissionName != ''"><![CDATA[ and t1.permission_name like concat(concat('%',#{permissionName}),'%')]]></if>
+            <if test="permissionDescription != null and permissionDescription != ''"><![CDATA[ and t1.permission_description like concat(concat('%',#{permissionDescription}),'%')]]></if>
+            <if test="keyword != null and keyword != ''">
+            <![CDATA[ or t1.permission_name like concat(concat('%',#{keyword}),'%')]]>
+            <![CDATA[ or t1.permission_description like concat(concat('%',#{keyword}),'%')]]>
+            </if>
+            <if test="gmtCreate_min != null and gmtCreate_min != ''"><![CDATA[ and t1.gmt_create > #{gmtCreate_min}]]></if>
+            <if test="gmtCreate_max != null and gmtCreate_max != ''"><![CDATA[ and t1.gmt_create < #{gmtCreate_max}]]></if>
+        </where>
+        order by gmt_modified DESC, gmt_create DESC
+    </select>
+    <!-- 添加 -->
+    <insert id="add">
+        insert into x_permissionMenu(
+            permission_name,
+            permission_description,
+            gmt_create,
+            gmt_modified
+        )
+        values(
+            #{permissionName},
+            #{permissionDescription},
+            #{gmtCreate},
+            #{gmtModified}
+        )
+        <selectKey resultType="Integer" order="AFTER" keyProperty="lastKeyId">
+            SELECT LAST_INSERT_ID() AS lastKeyId
+        </selectKey>
+    </insert>
+    <!-- 添加菜单权限和菜单的关联 -->
+    <insert id="addPermRelMenu">
+        insert into x_permission_menu(
+            x_permissionmenu_xid,
+            x_menu_xid,
+            gmt_create,
+            gmt_modified
+        )
+        values
+        <foreach collection="menuIds" item="item" separator="," >
+	    (
+	        #{lastKeyId}, 
+	        #{item},
+	        #{gmtCreate},
+            #{gmtModified}
+	    )
+        </foreach>
+    </insert>
+    
+    <!-- 更新 -->
+    <update id="upd">
+        update x_permissionMenu
+        <set>
+            <if test="permissionName != null or permissionName != ''">permission_name=#{permissionName},</if>
+            <if test="permissionDescription != null or permissionDescription != ''">permission_description=#{permissionDescription},</if>
+            <if test="gmtModified != null or gmtModified != ''">gmt_modified=#{gmtModified},</if>
+        </set>
+        <where>
+            xid=#{xId}
+        </where>
+    </update>
+    <!-- 删除 -->
+    <delete id="del">
+        delete from x_permissionMenu
+        <where>
+            xid in 
+            <foreach collection="xIds" open="(" separator="," close=")" item="item">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+</mapper>

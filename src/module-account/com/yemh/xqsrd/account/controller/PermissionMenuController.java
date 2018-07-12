@@ -9,37 +9,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yemh.xqsrd.account.service.PermissionMenuService;
 import com.yemh.xqsrd.account.service.RoleService;
 
 @RestController
-@RequestMapping("/role")
-public class RoleController {
+@RequestMapping("/permMenu")
+public class PermissionMenuController {
     
     @Autowired
-    private RoleService roleService;
+    private PermissionMenuService service;
     
     @RequestMapping(value = "/add", method=RequestMethod.POST)
     public String add(@RequestBody Map<String, Object> params) {
-        String json = roleService.add(params);
+        String json = service.add(params);
         return json;
     }
     
     @RequestMapping(value = "/upd", method=RequestMethod.POST)
     public String upd(@RequestBody Map<String, Object> params) {
-        String json = roleService.upd(params);
+        String json = service.upd(params);
         return json;
     }
     
     @RequestMapping(value = "/del", method=RequestMethod.POST)
     public String del(@RequestBody Map<String, Object> params) {
-        String json = roleService.del(params);
+        String json = service.del(params);
         return json;
     }
     
     @RequestMapping(value = "/getList", method=RequestMethod.POST)
         public String getList(@RequestBody Map<String, Object> params) {
 //        public String getList(@RequestParam String page, @RequestParam String limit, @RequestBody Map<String, Object> params) {
-        String json = roleService.getList(params);
+        String json = service.getList(params);
         return json;
     }
     

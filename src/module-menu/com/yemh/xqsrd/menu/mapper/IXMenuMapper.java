@@ -9,14 +9,18 @@ import java.util.Map;
  */
 public interface IXMenuMapper {
 
-    List<Map<String,Object>> getMenuList();
-
-    List<Map<String, Object>> getAllMenuList();
+    List<Map<String,Object>> getUserMenuList();
 
     List<Map<String, Object>> getParentMenuList();
 
     int addMenu(Map<String, Object> params);
 
     int updMenu(Map<String, Object> params);
+
+    List<Map<String, Object>> getList(Map<String, Object> params);
+
+    List<Map<String, Object>> getMenuListWithPermId(Map<String, Object> params);
+
+    List<Map<String, Object>> getAllMenuList();
 
 }
