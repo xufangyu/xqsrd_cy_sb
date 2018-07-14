@@ -68,4 +68,66 @@
             </foreach>
         </where>
     </delete>
+    <!-- 添加权限 -->
+    <insert id="addPermListByRoleId">
+        insert into x_role_permission(
+            x_role_id,
+            x_permission_id,
+            gmt_create,
+            gmt_modified
+        )
+        values
+        <foreach collection="ids" separator="," item="item">
+            (
+            #{roleId},
+            #{item},
+            #{gmtCreate},
+            #{gmtModified}
+            )
+        </foreach>
+    </insert>
+    <!-- 删除权限 -->
+    <delete id="delPermListByRoleId">
+        delete from x_role_permission
+        <where>
+            x_role_id = #{roleId}
+            and x_permission_id in 
+            <foreach collection="ids" open="(" separator="," close=")" item="item">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+    <select id="getListAllForUser" parameterType="Map" resultType="java.util.LinkedHashMap" >
+        select distinct
+            t1.xid xId, 
+            t1.role_name roleName,
+            t1.role_description roleDescription,  
+            DATE_FORMAT(t1.gmt_create,'%Y-%m-%d %h:%m:%s') gmtCreate, 
+            DATE_FORMAT(t1.gmt_modified,'%Y-%m-%d %h:%m:%s') gmtModified
+            from x_role t1
+        <where>
+            t1.xid not in (
+                select 
+                t2.x_role_id
+                from x_user_role t2  
+                where 
+                t2.x_user_id = #{userId}
+            )
+        </where>
+        order by t1.gmt_modified DESC, t1.gmt_create DESC
+    </select>
+    <select id="getListByUserId" parameterType="Map" resultType="java.util.LinkedHashMap" >
+        select 
+        t1.xid xId,
+        t1.role_name roleNameByRoleId,
+        DATE_FORMAT(t1.gmt_create,'%Y-%m-%d %h:%m:%s') gmtCreate, 
+        DATE_FORMAT(t1.gmt_modified,'%Y-%m-%d %h:%m:%s') gmtModified
+        from x_role t1
+        left join x_user_role t2
+        on t1.xid = t2.x_role_id
+        <where>
+            t2.x_user_id = #{userId}
+        </where>
+        order by t1.gmt_modified DESC, t1.gmt_create DESC
+    </select>
 </mapper>

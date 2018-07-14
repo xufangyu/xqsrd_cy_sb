@@ -44,4 +44,15 @@ public class PermissionMenuController {
         return json;
     }
     
+    @RequestMapping(value = "/getListAllForRole", method=RequestMethod.POST)
+    public String getListAllForRole(@RequestBody Map<String, Object> params) {
+        String json = service.getListAllForRole(params);
+        return json;
+    }
+    
+    @RequestMapping(value = "/getListByRoleId", method=RequestMethod.POST)
+    public String getListByRoleId(@RequestBody Map<String, Object> params) {
+        String json = service.getListByRoleId(params);
+        return json;
+    }
 }

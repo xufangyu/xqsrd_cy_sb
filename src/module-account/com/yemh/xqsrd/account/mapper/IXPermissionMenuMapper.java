@@ -21,4 +21,8 @@ public interface IXPermissionMenuMapper {
     int del(Map<String, Object> params);
 
     int addPermRelMenu(Map<String, Object> params);
+
+    Page<Map<String, Object>> getListAllForRole(PageRowBounds pageRowBounds, Map<String, Object> params);
+
+    Page<Map<String, Object>> getListByRoleId(Map<String, Object> params);
 }

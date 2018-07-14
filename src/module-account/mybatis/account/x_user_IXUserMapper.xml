@@ -70,4 +70,33 @@
             </foreach>
         </where>
     </delete>
+    <!-- 添加角色 -->
+    <insert id="addRoleListByUserId">
+        insert into x_user_role(
+            x_user_id,
+            x_role_id,
+            gmt_create,
+            gmt_modified
+        )
+        values
+        <foreach collection="ids" separator="," item="item">
+            (
+            #{userId},
+            #{item},
+            #{gmtCreate},
+            #{gmtModified}
+            )
+        </foreach>
+    </insert>
+    <!-- 删除角色 -->
+    <delete id="delRoleListByUserId">
+        delete from x_user_role
+        <where>
+            x_user_id = #{userId}
+            and x_role_id in 
+            <foreach collection="ids" open="(" separator="," close=")" item="item">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
 </mapper>

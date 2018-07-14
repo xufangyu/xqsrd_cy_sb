@@ -23,7 +23,7 @@ import com.yemh.xqsrd.base.util.StringUtil;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    private IXRoleMapper ixRoleMapper;
+    private IXRoleMapper iXMapper;
 
     /* (non-Javadoc)
      * @see com.yemh.xqsrd.account.service.impl.RoleService#add(java.util.Map)
@@ -43,7 +43,7 @@ public class RoleServiceImpl implements RoleService {
         
         int res;
         try {
-            res = ixRoleMapper.add(params);
+            res = iXMapper.add(params);
             if (res > 0) {
                 JSONObject data = new JSONObject();
                 data.put("data", "");
@@ -86,7 +86,7 @@ public class RoleServiceImpl implements RoleService {
         
         int res;
         try {
-            res = ixRoleMapper.upd(params);
+            res = iXMapper.upd(params);
             if (res < 0) {
 
             }
@@ -129,7 +129,7 @@ public class RoleServiceImpl implements RoleService {
 
         int res;
         try {
-            res = ixRoleMapper.del(params);
+            res = iXMapper.del(params);
             if (res <= 0) {
                 JSONObject data = new JSONObject();
                 data.put("data", "");
@@ -177,7 +177,7 @@ public class RoleServiceImpl implements RoleService {
 
         Page<Map<String, Object>> pageList = null;
         try {
-            pageList = ixRoleMapper.getRoleList(new PageRowBounds(pageNum, pageSize), params);
+            pageList = iXMapper.getRoleList(new PageRowBounds(pageNum, pageSize), params);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -197,6 +197,137 @@ public class RoleServiceImpl implements RoleService {
     public String getRoleById(Map<String, Object> params) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String addPermListByRoleId(Map<String, Object> params) {
+        String dateTime = DateTimeUtil.getSystemDate("yyyy-MM-dd HH:mm:ss");
+        params.put("gmtCreate", dateTime);
+        params.put("gmtModified", dateTime);
+        
+        String roleName = StringUtil.getStringValue(params,"xId");
+        List<String> ids = (List<String>)params.get("ids");
+        if(ids == null || ids.size() == 0) {
+            JSONObject data = new JSONObject();
+            data.put("data", "");
+            data.put("msg", "添加权限失败,选择的权限为空");
+            data.put("code", 1);
+
+            return JSONObject.toJSONString(data);
+        }
+        params.put("roleId", roleName);
+        
+        int res;
+        try {
+            res = iXMapper.addPermListByRoleId(params);
+            if (res > 0) {
+                JSONObject data = new JSONObject();
+                data.put("data", "");
+                data.put("msg", "添加权限成功");
+                data.put("code", 0);
+                return JSONObject.toJSONString(data);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JSONObject data = new JSONObject();
+            data.put("data", "");
+            data.put("msg", "添加权限失败");
+            data.put("code", 1);
+
+            return JSONObject.toJSONString(data);
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", "");
+        data.put("msg", "添加权限成功");
+        data.put("code", 0);
+
+        return JSONObject.toJSONString(data);
+    }
+
+    @Override
+    public String delPermListByRoleId(Map<String, Object> params) {
+        String dateTime = DateTimeUtil.getSystemDate("yyyy-MM-dd HH:mm:ss");
+        params.put("gmtCreate", dateTime);
+        params.put("gmtModified", dateTime);
+        
+        String xId = StringUtil.getStringValue(params,"xId");
+        List<String> ids = (List<String>)params.get("ids");
+        if(ids == null || ids.size() == 0) {
+            JSONObject data = new JSONObject();
+            data.put("data", "");
+            data.put("msg", "删除权限失败,选择的权限为空");
+            data.put("code", 1);
+
+            return JSONObject.toJSONString(data);
+        }
+        params.put("roleId", xId);
+        
+        int res;
+        try {
+            res = iXMapper.delPermListByRoleId(params);
+            if (res > 0) {
+                JSONObject data = new JSONObject();
+                data.put("data", "");
+                data.put("msg", "删除权限成功");
+                data.put("code", 0);
+                return JSONObject.toJSONString(data);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JSONObject data = new JSONObject();
+            data.put("data", "");
+            data.put("msg", "删除权限失败");
+            data.put("code", 1);
+
+            return JSONObject.toJSONString(data);
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", "");
+        data.put("msg", "删除权限成功");
+        data.put("code", 0);
+
+        return JSONObject.toJSONString(data);
+    }
+
+    @Override
+    public String getListAllForUser(Map<String, Object> params) {
+        int pageNum = 0, pageSize = 20;
+        pageNum = (int)params.get("page");
+        pageSize = (int)params.get("limit");
+
+        Page<Map<String, Object>> pageList = null;
+        try {
+            pageList = iXMapper.getListAllForUser(new PageRowBounds(pageNum, pageSize), params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", pageList);
+        data.put("count", pageList.getTotal());
+        data.put("msg", "获取所有菜单成功");
+        data.put("code", 0);
+
+        return JSONObject.toJSONString(data);
+    }
+
+    @Override
+    public String getListByUserId(Map<String, Object> params) {
+        int pageNum = 0, pageSize = 20;
+
+        Page<Map<String, Object>> pageList = null;
+        try {
+            pageList = iXMapper.getListByUserId(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", pageList);
+        // 不返回count前台接收不到这个字段就不会分页
+        // data.put("count", pageList.getTotal());
+        data.put("msg", "获取所有菜单成功");
+        data.put("code", 0);
+
+        return JSONObject.toJSONString(data);
     }
 
 }

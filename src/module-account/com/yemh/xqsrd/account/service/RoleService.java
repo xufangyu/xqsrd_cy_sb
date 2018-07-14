@@ -16,4 +16,12 @@ public interface RoleService {
 
     String getRoleById(Map<String, Object> params);
 
+    String addPermListByRoleId(Map<String, Object> params);
+
+    String delPermListByRoleId(Map<String, Object> params);
+
+    String getListAllForUser(Map<String, Object> params);
+
+    String getListByUserId(Map<String, Object> params);
+
 }

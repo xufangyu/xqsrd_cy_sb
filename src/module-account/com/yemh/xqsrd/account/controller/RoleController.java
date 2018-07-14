@@ -38,9 +38,31 @@ public class RoleController {
     
     @RequestMapping(value = "/getList", method=RequestMethod.POST)
         public String getList(@RequestBody Map<String, Object> params) {
-//        public String getList(@RequestParam String page, @RequestParam String limit, @RequestBody Map<String, Object> params) {
         String json = roleService.getList(params);
         return json;
     }
     
+    @RequestMapping(value = "/addPermListByRoleId", method = RequestMethod.POST)
+    public String addPermListByRoleId(@RequestBody Map<String, Object> params) {
+        String json = roleService.addPermListByRoleId(params);
+        return json;
+    }
+
+    @RequestMapping(value = "/delPermListByRoleId", method = RequestMethod.POST)
+    public String delPermListByRoleId(@RequestBody Map<String, Object> params) {
+        String json = roleService.delPermListByRoleId(params);
+        return json;
+    }
+    
+    @RequestMapping(value = "/getListAllForUser", method=RequestMethod.POST)
+        public String getListAllForUser(@RequestBody Map<String, Object> params) {
+        String json = roleService.getListAllForUser(params);
+        return json;
+    }   
+    
+    @RequestMapping(value = "/getListByUserId", method=RequestMethod.POST)
+    public String getListByUserId(@RequestBody Map<String, Object> params) {
+    String json = roleService.getListByUserId(params);
+    return json;
+}
 }

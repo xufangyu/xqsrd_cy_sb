@@ -208,4 +208,48 @@ public class PermissionMenuServiceImpl implements PermissionMenuService {
         return null;
     }
 
+    @Override
+    public String getListAllForRole(Map<String, Object> params) {
+        int pageNum = 0, pageSize = 20;
+        pageNum = (int)params.get("page");
+        pageSize = (int)params.get("limit");
+
+        Page<Map<String, Object>> pageList = null;
+        try {
+            pageList = iXMapper.getListAllForRole(new PageRowBounds(pageNum, pageSize), params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", pageList);
+        data.put("count", pageList.getTotal());
+        data.put("msg", "获取所有菜单成功");
+        data.put("code", 0);
+
+        return JSONObject.toJSONString(data);
+    }
+
+    @Override
+    public String getListByRoleId(Map<String, Object> params) {
+        int pageNum = 0, pageSize = 20;
+        // pageNum = (int)params.get("page");
+        // pageSize = (int)params.get("limit");
+
+        Page<Map<String, Object>> pageList = null;
+        try {
+            // pageList = iXMapper.getListByRoleId(new PageRowBounds(pageNum, pageSize), params);
+            pageList = iXMapper.getListByRoleId(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", pageList);
+        // 不返回count前台接收不到这个字段就不会分页
+        // data.put("count", pageList.getTotal());
+        data.put("msg", "获取所有菜单成功");
+        data.put("code", 0);
+
+        return JSONObject.toJSONString(data);
+    }
+
 }

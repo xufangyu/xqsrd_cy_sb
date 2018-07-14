@@ -16,4 +16,8 @@ public interface IXUserMapper {
     int upd(Map<String, Object> params);
 
     int del(Map<String, Object> params);
+
+    int addRoleListByUserId(Map<String, Object> params);
+
+    int delRoleListByUserId(Map<String, Object> params);
 }

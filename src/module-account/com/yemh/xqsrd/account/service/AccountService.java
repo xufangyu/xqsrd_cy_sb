@@ -10,4 +10,7 @@ public interface AccountService {
     
     public String getList(Map<String, Object> params);
     public String getUserById(Map<String, Object> params);
+    
+    public String addRoleListByUserId(Map<String, Object> params);
+    public String delRoleListByUserId(Map<String, Object> params);
 }

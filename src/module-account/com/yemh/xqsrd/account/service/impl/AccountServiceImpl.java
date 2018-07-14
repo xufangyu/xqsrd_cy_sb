@@ -21,7 +21,7 @@ import com.yemh.xqsrd.base.util.StringUtil;
 public class AccountServiceImpl implements AccountService {
 
     @Autowired
-    private IXUserMapper ixUserMapper;
+    private IXUserMapper iXMapper;
 
     @Override
     public String add(Map<String, Object> params) {
@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
         
         int res;
         try {
-            res = ixUserMapper.add(params);
+            res = iXMapper.add(params);
             if (res < 0) {
 
             }
@@ -75,7 +75,7 @@ public class AccountServiceImpl implements AccountService {
         
         int res;
         try {
-            res = ixUserMapper.upd(params);
+            res = iXMapper.upd(params);
             if (res < 0) {
 
             }
@@ -115,7 +115,7 @@ public class AccountServiceImpl implements AccountService {
 
         int res;
         try {
-            res = ixUserMapper.del(params);
+            res = iXMapper.del(params);
             if (res <= 0) {
                 JSONObject data = new JSONObject();
                 data.put("data", "");
@@ -160,7 +160,7 @@ public class AccountServiceImpl implements AccountService {
 
         Page<Map<String, Object>> userList = null;
         try {
-            userList = ixUserMapper.getUserList(new PageRowBounds(pageNum, pageSize), params);
+            userList = iXMapper.getUserList(new PageRowBounds(pageNum, pageSize), params);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -177,6 +177,104 @@ public class AccountServiceImpl implements AccountService {
     public String getUserById(Map<String, Object> params) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String addRoleListByUserId(Map<String, Object> params) {
+        String dateTime = DateTimeUtil.getSystemDate("yyyy-MM-dd HH:mm:ss");
+        params.put("gmtCreate", dateTime);
+        params.put("gmtModified", dateTime);
+        
+        String xId = StringUtil.getStringValue(params,"xId");
+        if(StringUtil.isEmpty(xId)) {
+            JSONObject data = new JSONObject();
+            data.put("data", "");
+            data.put("msg", "添加角色失败,选择的用户为空");
+            data.put("code", 1);
+
+            return JSONObject.toJSONString(data);
+        }
+        List<String> ids = (List<String>)params.get("ids");
+        if(ids == null || ids.size() == 0) {
+            JSONObject data = new JSONObject();
+            data.put("data", "");
+            data.put("msg", "添加权限失败,选择的权限为空");
+            data.put("code", 1);
+
+            return JSONObject.toJSONString(data);
+        }
+        params.put("userId", xId);
+        
+        int res;
+        try {
+            res = iXMapper.addRoleListByUserId(params);
+            if (res > 0) {
+                JSONObject data = new JSONObject();
+                data.put("data", "");
+                data.put("msg", "添加权限成功");
+                data.put("code", 0);
+                return JSONObject.toJSONString(data);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JSONObject data = new JSONObject();
+            data.put("data", "");
+            data.put("msg", "添加权限失败");
+            data.put("code", 1);
+
+            return JSONObject.toJSONString(data);
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", "");
+        data.put("msg", "添加权限成功");
+        data.put("code", 0);
+
+        return JSONObject.toJSONString(data);
+    }
+
+    @Override
+    public String delRoleListByUserId(Map<String, Object> params) {
+        String dateTime = DateTimeUtil.getSystemDate("yyyy-MM-dd HH:mm:ss");
+        params.put("gmtCreate", dateTime);
+        params.put("gmtModified", dateTime);
+        
+        String xId = StringUtil.getStringValue(params,"xId");
+        List<String> ids = (List<String>)params.get("ids");
+        if(ids == null || ids.size() == 0) {
+            JSONObject data = new JSONObject();
+            data.put("data", "");
+            data.put("msg", "删除权限失败,选择的权限为空");
+            data.put("code", 1);
+
+            return JSONObject.toJSONString(data);
+        }
+        params.put("userId", xId);
+        
+        int res;
+        try {
+            res = iXMapper.delRoleListByUserId(params);
+            if (res > 0) {
+                JSONObject data = new JSONObject();
+                data.put("data", "");
+                data.put("msg", "删除权限成功");
+                data.put("code", 0);
+                return JSONObject.toJSONString(data);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JSONObject data = new JSONObject();
+            data.put("data", "");
+            data.put("msg", "删除权限失败");
+            data.put("code", 1);
+
+            return JSONObject.toJSONString(data);
+        }
+        JSONObject data = new JSONObject();
+        data.put("data", "");
+        data.put("msg", "删除权限成功");
+        data.put("code", 0);
+
+        return JSONObject.toJSONString(data);
     }
 
 }

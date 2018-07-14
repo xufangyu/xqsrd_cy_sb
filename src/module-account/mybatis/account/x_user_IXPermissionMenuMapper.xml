@@ -94,4 +94,54 @@
             </foreach>
         </where>
     </delete>
+    
+    <select id="getListAllForRole" parameterType="Map" resultType="java.util.LinkedHashMap" >
+        select distinct
+	        t1.xid xId, 
+	        t1.permission_name permissionName,
+	        t1.permission_description permissionDescription,  
+	        DATE_FORMAT(t1.gmt_create,'%Y-%m-%d %h:%m:%s') gmtCreate, 
+	        DATE_FORMAT(t1.gmt_modified,'%Y-%m-%d %h:%m:%s') gmtModified
+	        from x_permissionMenu t1
+        <where>
+            t1.xid not in (
+                select 
+                t2.x_permission_id
+                from x_role_permission t2  
+                where 
+                t2.x_role_id = #{roleId}
+            )
+            <if test="permissionName != null and permissionName != ''"><![CDATA[ and t1.permission_name like concat(concat('%',#{permissionName}),'%')]]></if>
+            <if test="permissionDescription != null and permissionDescription != ''"><![CDATA[ and t1.permission_description like concat(concat('%',#{permissionDescription}),'%')]]></if>
+            <if test="keyword != null and keyword != ''">
+            <![CDATA[ or t1.permission_name like concat(concat('%',#{keyword}),'%')]]>
+            <![CDATA[ or t1.permission_description like concat(concat('%',#{keyword}),'%')]]>
+            </if>
+            <if test="gmtCreate_min != null and gmtCreate_min != ''"><![CDATA[ and t1.gmt_create > #{gmtCreate_min}]]></if>
+            <if test="gmtCreate_max != null and gmtCreate_max != ''"><![CDATA[ and t1.gmt_create < #{gmtCreate_max}]]></if>
+        </where>
+        order by t1.gmt_modified DESC, t1.gmt_create DESC
+    </select>
+    <select id="getListByRoleId" parameterType="Map" resultType="java.util.LinkedHashMap" >
+        select 
+        t1.xid xId,
+        t1.permission_name permNameByRoleId,
+        DATE_FORMAT(t1.gmt_create,'%Y-%m-%d %h:%m:%s') gmtCreate, 
+        DATE_FORMAT(t1.gmt_modified,'%Y-%m-%d %h:%m:%s') gmtModified
+        from x_permissionMenu t1
+        left join x_role_permission t2
+        on t1.xid = t2.x_permission_id
+        <where>
+            t2.x_role_id = #{roleId}
+            <if test="permissionName != null and permissionName != ''"><![CDATA[ and t1.permission_name like concat(concat('%',#{permissionName}),'%')]]></if>
+            <if test="permissionDescription != null and permissionDescription != ''"><![CDATA[ and t1.permission_description like concat(concat('%',#{permissionDescription}),'%')]]></if>
+            <if test="keyword != null and keyword != ''">
+            <![CDATA[ or t1.permission_name like concat(concat('%',#{keyword}),'%')]]>
+            <![CDATA[ or t1.permission_description like concat(concat('%',#{keyword}),'%')]]>
+            </if>
+            <if test="gmtCreate_min != null and gmtCreate_min != ''"><![CDATA[ and t1.gmt_create > #{gmtCreate_min}]]></if>
+            <if test="gmtCreate_max != null and gmtCreate_max != ''"><![CDATA[ and t1.gmt_create < #{gmtCreate_max}]]></if>
+        </where>
+        order by t1.gmt_modified DESC, t1.gmt_create DESC
+    </select>
 </mapper>

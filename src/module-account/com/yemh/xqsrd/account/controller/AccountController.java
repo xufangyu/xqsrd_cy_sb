@@ -49,4 +49,16 @@ public class AccountController {
         return json;
     }
     
+    
+    @RequestMapping(value = "/addRoleListByUserId", method = RequestMethod.POST)
+    public String addRoleListByUserId(@RequestBody Map<String, Object> params) {
+        String json = accountService.addRoleListByUserId(params);
+        return json;
+    }
+
+    @RequestMapping(value = "/delRoleListByUserId", method = RequestMethod.POST)
+    public String delRoleListByUserId(@RequestBody Map<String, Object> params) {
+        String json = accountService.delRoleListByUserId(params);
+        return json;
+    }
 }

@@ -15,4 +15,12 @@ public interface IXRoleMapper {
     int upd(Map<String, Object> params);
 
     int del(Map<String, Object> params);
+
+    int addPermListByRoleId(Map<String, Object> params);
+
+    int delPermListByRoleId(Map<String, Object> params);
+
+    Page<Map<String, Object>> getListAllForUser(PageRowBounds pageRowBounds, Map<String, Object> params);
+
+    Page<Map<String, Object>> getListByUserId(Map<String, Object> params);
 }

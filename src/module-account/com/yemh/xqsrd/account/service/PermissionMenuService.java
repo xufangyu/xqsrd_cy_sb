@@ -14,4 +14,14 @@ public interface PermissionMenuService {
 
     String getMenuPermissionById(Map<String, Object> params);
 
+    /**
+     * 角色页面选择权限
+     */
+    String getListAllForRole(Map<String, Object> params);
+
+    /**
+     * 查询角色已经选择的页面
+     */
+    String getListByRoleId(Map<String, Object> params);
+
 }
