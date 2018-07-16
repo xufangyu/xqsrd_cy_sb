@@ -15,12 +15,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageRowBounds;
 import com.yemh.xqsrd.account.mapper.IXPermissionMenuMapper;
 import com.yemh.xqsrd.account.service.PermissionMenuService;
+import com.yemh.xqsrd.base.AbstractBaseService;
 import com.yemh.xqsrd.base.util.DateTimeUtil;
 import com.yemh.xqsrd.base.util.MD5Util;
 import com.yemh.xqsrd.base.util.StringUtil;
 
 @Service("PermissionMenuServiceImpl")
-public class PermissionMenuServiceImpl implements PermissionMenuService {
+public class PermissionMenuServiceImpl extends AbstractBaseService implements PermissionMenuService {
 
     @Autowired
     private IXPermissionMenuMapper iXMapper;
@@ -42,11 +43,7 @@ public class PermissionMenuServiceImpl implements PermissionMenuService {
         JSONObject obj = (JSONObject)JSONObject.toJSON(params);
         String permMenuIds = obj.getString("permMenuIds");
         if(StringUtil.isEmpty(permMenuIds)) {
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "添加失败");
-            data.put("code", 1);
-            return JSONObject.toJSONString(data);
+            return F("添加失败");
         }
 
         List<String> menuIds = Arrays.asList(permMenuIds.split(","));
@@ -60,27 +57,12 @@ public class PermissionMenuServiceImpl implements PermissionMenuService {
                 
                 res2 = iXMapper.addPermRelMenu(params);
                 
-                JSONObject data = new JSONObject();
-                data.put("data", "");
-                data.put("msg", "添加账号成功");
-                data.put("code", 0);
-                return JSONObject.toJSONString(data);
+                return S("添加账号成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "添加账号失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "添加账号成功");
-        data.put("code", 0);
-
-        return JSONObject.toJSONString(data);
+        return F("添加账号失败");
     }
 
     /* (non-Javadoc)
@@ -102,24 +84,14 @@ public class PermissionMenuServiceImpl implements PermissionMenuService {
         int res;
         try {
             res = iXMapper.upd(params);
-            if (res < 0) {
-
+            if (res > 0) {
+                return S("更新账号成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "更新账号失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "更新账号成功");
-        data.put("code", 0);
 
-        return JSONObject.toJSONString(data);
+        return F("更新账号失败");
     }
 
     /* (non-Javadoc)
@@ -145,29 +117,13 @@ public class PermissionMenuServiceImpl implements PermissionMenuService {
         int res;
         try {
             res = iXMapper.del(params);
-            if (res <= 0) {
-                JSONObject data = new JSONObject();
-                data.put("data", "");
-                data.put("msg", "删除账号失败");
-                data.put("code", 1);
-
-                return JSONObject.toJSONString(data);
+            if (res > 0) {
+                return S("删除账号成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "删除账号失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "删除账号成功");
-        data.put("code", 0);
-
-        return JSONObject.toJSONString(data);
+        return F("删除账号失败");
     }
 
     @Override
@@ -190,16 +146,14 @@ public class PermissionMenuServiceImpl implements PermissionMenuService {
         Page<Map<String, Object>> pageList = null;
         try {
             pageList = iXMapper.getList(new PageRowBounds(pageNum, pageSize), params);
+            if(pageList != null) {
+                return S("获取所有菜单权限成功", pageList, pageList.getTotal());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JSONObject data = new JSONObject();
-        data.put("data", pageList);
-        data.put("count", pageList.getTotal());
-        data.put("msg", "获取所有菜单成功");
-        data.put("code", 0);
 
-        return JSONObject.toJSONString(data);
+        return F("获取所有菜单权限失败");
     }
 
     @Override
@@ -217,16 +171,13 @@ public class PermissionMenuServiceImpl implements PermissionMenuService {
         Page<Map<String, Object>> pageList = null;
         try {
             pageList = iXMapper.getListAllForRole(new PageRowBounds(pageNum, pageSize), params);
+            if (pageList != null) {
+                return S("获取所有菜单权限成功", pageList, pageList.getTotal());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JSONObject data = new JSONObject();
-        data.put("data", pageList);
-        data.put("count", pageList.getTotal());
-        data.put("msg", "获取所有菜单成功");
-        data.put("code", 0);
-
-        return JSONObject.toJSONString(data);
+        return S("获取所有菜单权限成功");
     }
 
     @Override
@@ -237,19 +188,17 @@ public class PermissionMenuServiceImpl implements PermissionMenuService {
 
         Page<Map<String, Object>> pageList = null;
         try {
-            // pageList = iXMapper.getListByRoleId(new PageRowBounds(pageNum, pageSize), params);
             pageList = iXMapper.getListByRoleId(params);
+            if (pageList != null) {
+                // 不返回count前台接收不到这个字段就不会分页
+                // data.put("count", pageList.getTotal());
+                return S("根据角色,获取所有菜单权限成功", pageList);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JSONObject data = new JSONObject();
-        data.put("data", pageList);
-        // 不返回count前台接收不到这个字段就不会分页
-        // data.put("count", pageList.getTotal());
-        data.put("msg", "获取所有菜单成功");
-        data.put("code", 0);
 
-        return JSONObject.toJSONString(data);
+        return F("根据角色,获取所有菜单权限失败");
     }
 
 }

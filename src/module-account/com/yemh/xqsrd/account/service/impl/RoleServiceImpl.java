@@ -15,12 +15,13 @@ import com.yemh.xqsrd.account.mapper.IXRoleMapper;
 import com.yemh.xqsrd.account.mapper.IXUserMapper;
 import com.yemh.xqsrd.account.service.AccountService;
 import com.yemh.xqsrd.account.service.RoleService;
+import com.yemh.xqsrd.base.AbstractBaseService;
 import com.yemh.xqsrd.base.util.DateTimeUtil;
 import com.yemh.xqsrd.base.util.MD5Util;
 import com.yemh.xqsrd.base.util.StringUtil;
 
 @Service("RoleServiceImpl")
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends AbstractBaseService implements RoleService {
 
     @Autowired
     private IXRoleMapper iXMapper;
@@ -45,27 +46,12 @@ public class RoleServiceImpl implements RoleService {
         try {
             res = iXMapper.add(params);
             if (res > 0) {
-                JSONObject data = new JSONObject();
-                data.put("data", "");
-                data.put("msg", "添加账号成功");
-                data.put("code", 0);
-                return JSONObject.toJSONString(data);
+                return S("添加账号成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "添加账号失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "添加账号成功");
-        data.put("code", 0);
-
-        return JSONObject.toJSONString(data);
+        return F("添加账号失败");
     }
 
     /* (non-Javadoc)
@@ -87,24 +73,14 @@ public class RoleServiceImpl implements RoleService {
         int res;
         try {
             res = iXMapper.upd(params);
-            if (res < 0) {
-
+            if (res > 0) {
+                return S("更新账号成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "更新账号失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "更新账号成功");
-        data.put("code", 0);
 
-        return JSONObject.toJSONString(data);
+        return F("更新账号失败");
     }
 
     /* (non-Javadoc)
@@ -130,29 +106,14 @@ public class RoleServiceImpl implements RoleService {
         int res;
         try {
             res = iXMapper.del(params);
-            if (res <= 0) {
-                JSONObject data = new JSONObject();
-                data.put("data", "");
-                data.put("msg", "删除账号失败");
-                data.put("code", 1);
-
-                return JSONObject.toJSONString(data);
+            if (res > 0) {
+                return S("删除账号成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "删除账号失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "删除账号成功");
-        data.put("code", 0);
 
-        return JSONObject.toJSONString(data);
+        return F("删除账号失败");
     }
 
     /* (non-Javadoc)
@@ -178,16 +139,14 @@ public class RoleServiceImpl implements RoleService {
         Page<Map<String, Object>> pageList = null;
         try {
             pageList = iXMapper.getRoleList(new PageRowBounds(pageNum, pageSize), params);
+            if(pageList != null) {
+                return S("获取所有角色成功", pageList, pageList.getTotal());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JSONObject data = new JSONObject();
-        data.put("data", pageList);
-        data.put("count", pageList.getTotal());
-        data.put("msg", "获取所有菜单成功");
-        data.put("code", 0);
 
-        return JSONObject.toJSONString(data);
+        return F("获取所有角色失败");
     }
 
     /* (non-Javadoc)
@@ -208,12 +167,7 @@ public class RoleServiceImpl implements RoleService {
         String roleName = StringUtil.getStringValue(params,"xId");
         List<String> ids = (List<String>)params.get("ids");
         if(ids == null || ids.size() == 0) {
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "添加权限失败,选择的权限为空");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
+            return F("添加权限失败,选择的权限为空");
         }
         params.put("roleId", roleName);
         
@@ -221,27 +175,12 @@ public class RoleServiceImpl implements RoleService {
         try {
             res = iXMapper.addPermListByRoleId(params);
             if (res > 0) {
-                JSONObject data = new JSONObject();
-                data.put("data", "");
-                data.put("msg", "添加权限成功");
-                data.put("code", 0);
-                return JSONObject.toJSONString(data);
+                return S("添加权限成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "添加权限失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "添加权限成功");
-        data.put("code", 0);
-
-        return JSONObject.toJSONString(data);
+        return F("添加权限失败");
     }
 
     @Override
@@ -253,12 +192,7 @@ public class RoleServiceImpl implements RoleService {
         String xId = StringUtil.getStringValue(params,"xId");
         List<String> ids = (List<String>)params.get("ids");
         if(ids == null || ids.size() == 0) {
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "删除权限失败,选择的权限为空");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
+            return F("删除权限失败,选择的权限为空");
         }
         params.put("roleId", xId);
         
@@ -266,27 +200,12 @@ public class RoleServiceImpl implements RoleService {
         try {
             res = iXMapper.delPermListByRoleId(params);
             if (res > 0) {
-                JSONObject data = new JSONObject();
-                data.put("data", "");
-                data.put("msg", "删除权限成功");
-                data.put("code", 0);
-                return JSONObject.toJSONString(data);
+                return S("删除权限成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "删除权限失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "删除权限成功");
-        data.put("code", 0);
-
-        return JSONObject.toJSONString(data);
+        return F("删除权限失败");
     }
 
     @Override
@@ -298,16 +217,13 @@ public class RoleServiceImpl implements RoleService {
         Page<Map<String, Object>> pageList = null;
         try {
             pageList = iXMapper.getListAllForUser(new PageRowBounds(pageNum, pageSize), params);
+            if(pageList != null) {
+                return S("获取所有角色成功", pageList, pageList.getTotal());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JSONObject data = new JSONObject();
-        data.put("data", pageList);
-        data.put("count", pageList.getTotal());
-        data.put("msg", "获取所有菜单成功");
-        data.put("code", 0);
-
-        return JSONObject.toJSONString(data);
+        return F("获取所有角色失败");
     }
 
     @Override
@@ -317,17 +233,15 @@ public class RoleServiceImpl implements RoleService {
         Page<Map<String, Object>> pageList = null;
         try {
             pageList = iXMapper.getListByUserId(params);
+            if(pageList != null) {
+                // 不返回count前台接收不到这个字段就不会分页
+                // data.put("count", pageList.getTotal());
+                return S("获取所有角色成功", pageList);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JSONObject data = new JSONObject();
-        data.put("data", pageList);
-        // 不返回count前台接收不到这个字段就不会分页
-        // data.put("count", pageList.getTotal());
-        data.put("msg", "获取所有菜单成功");
-        data.put("code", 0);
-
-        return JSONObject.toJSONString(data);
+        return F("获取所有菜单失败");
     }
 
 }

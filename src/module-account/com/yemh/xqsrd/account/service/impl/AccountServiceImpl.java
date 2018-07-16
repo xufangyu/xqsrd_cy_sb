@@ -13,12 +13,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageRowBounds;
 import com.yemh.xqsrd.account.mapper.IXUserMapper;
 import com.yemh.xqsrd.account.service.AccountService;
+import com.yemh.xqsrd.base.AbstractBaseService;
 import com.yemh.xqsrd.base.util.DateTimeUtil;
 import com.yemh.xqsrd.base.util.MD5Util;
 import com.yemh.xqsrd.base.util.StringUtil;
 
 @Service("AccountServiceImpl")
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl extends AbstractBaseService implements AccountService {
 
     @Autowired
     private IXUserMapper iXMapper;
@@ -40,24 +41,14 @@ public class AccountServiceImpl implements AccountService {
         int res;
         try {
             res = iXMapper.add(params);
-            if (res < 0) {
-
+            if (res > 0) {
+                return S("添加账号成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "添加账号失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "添加账号成功");
-        data.put("code", 0);
 
-        return JSONObject.toJSONString(data);
+        return F("添加账号失败");
     }
 
     @Override
@@ -76,30 +67,18 @@ public class AccountServiceImpl implements AccountService {
         int res;
         try {
             res = iXMapper.upd(params);
-            if (res < 0) {
-
+            if (res > 0) {
+                return S("更新账号成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "更新账号失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "更新账号成功");
-        data.put("code", 0);
 
-        return JSONObject.toJSONString(data);
+        return F("更新账号失败");
     }
 
     @Override
     public String del(Map<String, Object> params) {
-        // JSONObject json = (JSONObject)JSONObject.toJSON(params);
-        // JSONArray xIds = json.getJSONArray("xIds");
         ArrayList<String> xIds = (ArrayList<String>)params.get("xIds");
         // 判断是否为批量删除，如果为单个删除，将id放入list中
         if (StringUtil.isEmpty(xIds)) {
@@ -116,29 +95,14 @@ public class AccountServiceImpl implements AccountService {
         int res;
         try {
             res = iXMapper.del(params);
-            if (res <= 0) {
-                JSONObject data = new JSONObject();
-                data.put("data", "");
-                data.put("msg", "删除账号失败");
-                data.put("code", 1);
-
-                return JSONObject.toJSONString(data);
+            if (res > 0) {
+                return S("删除账号成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "删除账号失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "删除账号成功");
-        data.put("code", 0);
 
-        return JSONObject.toJSONString(data);
+        return F("删除账号失败");
     }
 
     @Override
@@ -161,16 +125,13 @@ public class AccountServiceImpl implements AccountService {
         Page<Map<String, Object>> userList = null;
         try {
             userList = iXMapper.getUserList(new PageRowBounds(pageNum, pageSize), params);
+            if(userList != null) {
+                return S("获取所有菜单成功", userList, userList.getTotal());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        JSONObject data = new JSONObject();
-        data.put("data", userList);
-        data.put("count", userList.getTotal());
-        data.put("msg", "获取所有菜单成功");
-        data.put("code", 0);
-
-        return JSONObject.toJSONString(data);
+        return F("获取所有菜单成功");
     }
 
     @Override
@@ -187,21 +148,11 @@ public class AccountServiceImpl implements AccountService {
         
         String xId = StringUtil.getStringValue(params,"xId");
         if(StringUtil.isEmpty(xId)) {
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "添加角色失败,选择的用户为空");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
+            return F("添加角色失败,选择的用户为空");
         }
         List<String> ids = (List<String>)params.get("ids");
         if(ids == null || ids.size() == 0) {
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "添加权限失败,选择的权限为空");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
+            return F("添加权限失败,选择的权限为空");
         }
         params.put("userId", xId);
         
@@ -209,27 +160,12 @@ public class AccountServiceImpl implements AccountService {
         try {
             res = iXMapper.addRoleListByUserId(params);
             if (res > 0) {
-                JSONObject data = new JSONObject();
-                data.put("data", "");
-                data.put("msg", "添加权限成功");
-                data.put("code", 0);
-                return JSONObject.toJSONString(data);
+                return S("添加权限成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "添加权限失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "添加权限成功");
-        data.put("code", 0);
-
-        return JSONObject.toJSONString(data);
+        return F("添加权限失败");
     }
 
     @Override
@@ -241,12 +177,7 @@ public class AccountServiceImpl implements AccountService {
         String xId = StringUtil.getStringValue(params,"xId");
         List<String> ids = (List<String>)params.get("ids");
         if(ids == null || ids.size() == 0) {
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "删除权限失败,选择的权限为空");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
+            return F("删除权限失败,选择的权限为空");
         }
         params.put("userId", xId);
         
@@ -254,27 +185,13 @@ public class AccountServiceImpl implements AccountService {
         try {
             res = iXMapper.delRoleListByUserId(params);
             if (res > 0) {
-                JSONObject data = new JSONObject();
-                data.put("data", "");
-                data.put("msg", "删除权限成功");
-                data.put("code", 0);
-                return JSONObject.toJSONString(data);
+                return S("删除权限成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JSONObject data = new JSONObject();
-            data.put("data", "");
-            data.put("msg", "删除权限失败");
-            data.put("code", 1);
-
-            return JSONObject.toJSONString(data);
         }
-        JSONObject data = new JSONObject();
-        data.put("data", "");
-        data.put("msg", "删除权限成功");
-        data.put("code", 0);
 
-        return JSONObject.toJSONString(data);
+        return F("删除权限失败");
     }
 
 }
