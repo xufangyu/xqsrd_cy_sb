@@ -14,7 +14,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.yemh.xqsrd.account.util.ValidateCode;
 import com.yemh.xqsrd.base.util.StringUtil;
 
-@RestController
+@RestController()
+@RequestMapping("/security")
 public class ValidateCodeController {
 
     /** 

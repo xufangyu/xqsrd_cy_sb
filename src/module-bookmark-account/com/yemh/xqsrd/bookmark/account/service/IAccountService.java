@@ -17,4 +17,10 @@ public interface IAccountService {
      */
     // @Transactional(readOnly=false,propagation=Propagation.REQUIRED)
     public void saveAccount(Map<String, Object> map) throws Exception;
+
+    
+    /**
+     * 添加
+     */
+    public String add(Map<String, Object> params);
 }

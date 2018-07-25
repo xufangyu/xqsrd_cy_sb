@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="WebsiteAccount">
+<mapper namespace="com.yemh.xqsrd.bookmark.account.mapper.IXBookMarkMapper">
 <!-- 插入网址账号 -->
   <insert id="x_set_account_add" parameterType="Map">
-    insert into cy_website_account
+    insert into x_bookmark
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="xid != null">
+        xid,
       </if>
       <if test="websiteName != null">
         website_name,
@@ -37,8 +37,77 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
+      <if test="xid != null">
+        #{xid,jdbcType=BIGINT},
+      </if>
+      <if test="websiteName != null">
+        #{websiteName,jdbcType=CHAR},
+      </if>
+      <if test="websiteUrl != null">
+        #{websiteUrl,jdbcType=CHAR},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=CHAR},
+      </if>
+      <if test="loginPasswd != null">
+        #{loginPasswd,jdbcType=CHAR},
+      </if>
+      <if test="bindMail != null">
+        #{bindMail,jdbcType=CHAR},
+      </if>
+      <if test="bindPhone != null">
+        #{bindPhone,jdbcType=CHAR},
+      </if>
+      <if test="disc != null">
+        #{disc,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 插入网址账号 -->
+  <insert id="add" parameterType="Map">
+    insert into x_bookmark
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xid != null">
+        xid,
+      </if>
+      <if test="websiteName != null">
+        website_name,
+      </if>
+      <if test="websiteUrl != null">
+        website_url,
+      </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="loginPasswd != null">
+        login_passwd,
+      </if>
+      <if test="bindMail != null">
+        bind_mail,
+      </if>
+      <if test="bindPhone != null">
+        bind_phone,
+      </if>
+      <if test="disc != null">
+        disc,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xid != null">
+        #{xid,jdbcType=BIGINT},
       </if>
       <if test="websiteName != null">
         #{websiteName,jdbcType=CHAR},

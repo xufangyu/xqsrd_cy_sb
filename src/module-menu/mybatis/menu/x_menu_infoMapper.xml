@@ -82,18 +82,22 @@
         </where>
     
     </update>
-    <!-- 查询，根据参数获取菜单 -->
+    <!-- 查询，根据参数获取菜单,用于菜单管理界面 -->
     <select id="getList" resultType="java.util.LinkedHashMap">
-        select 
-        xid 'xId',
-        menu_name 'menuName',
-        menu_path 'menuPath',
-        menu_component 'menuComponent',
-        menu_icon 'icon',
-        parent_id 'parentId',
-        is_leaf 'leaf',
-        pos 'pos'
-        from x_menu order by pos
+		select 
+		t1.xid 'xId',
+		t1.menu_name 'menuName',
+		t1.menu_path 'menuPath',
+		t1.menu_component 'menuComponent',
+		t1.menu_icon 'icon',
+        t2.menu_name 'parentName',
+        t2.xid 'parentId',
+		t1.is_leaf 'leaf',
+		t1.pos 'pos'
+		from x_menu t1
+		left join x_menu t2
+		on t1.parent_id = t2.xid
+		order by t1.pos;
     </select>
     
     <!-- 查询，根据权限id参数获取菜单 -->

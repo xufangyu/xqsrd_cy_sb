@@ -58,11 +58,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers(
             "/loginUser",
             "/login",
-            "/checkCode",
+            "/security/**",
             "/user/**",
             "/role/**",
             "/permMenu/**",
-            "/menu/**"
+            "/menu/**",
+            "/bookmark/**"
             );
         http.authorizeRequests()
             .antMatchers("/lib/**", "/css/**", "/js/**", "/imag/**", "/**/favicon.ico").permitAll()

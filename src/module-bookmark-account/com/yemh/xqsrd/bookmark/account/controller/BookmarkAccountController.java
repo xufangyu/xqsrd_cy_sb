@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
@@ -21,6 +23,7 @@ import com.yemh.xqsrd.bookmark.account.service.IAccountService;
  * @date 2018/01/25
  */
 @Controller
+@RequestMapping(value = "/bookmark")
 public class BookmarkAccountController {
 
     @Autowired
@@ -79,5 +82,12 @@ public class BookmarkAccountController {
             returnMap.put(paramName, paramValue);
         }
         return returnMap;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/add", method=RequestMethod.POST)
+    public String add(@RequestBody Map<String, Object> params) {
+        String json = accountServiceImpl.add(params);
+        return json;
     }
 }
