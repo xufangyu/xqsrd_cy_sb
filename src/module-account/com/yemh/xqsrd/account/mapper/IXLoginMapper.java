@@ -12,6 +12,6 @@ public interface IXLoginMapper {
 
     List<XRole> getRoleByUserId(Long getxId);
 
-    List<XMenuPermission> getPermissionByRoleId(List<XRole> roles);
+    List<XMenuPermission> getPermissionByRoleIdForLogin(List<XRole> roles);
     
 }

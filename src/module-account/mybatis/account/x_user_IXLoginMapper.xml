@@ -23,17 +23,24 @@
         where xur.x_user_id = #{xId,jdbcType=BIGINT}
     </select>
     <!-- 查询权限 -->
-    <select id="getPermissionByRoleId" parameterType="list" resultType="xmenupermission">
-        select distinct xp.*
+    <select id="getPermissionByRoleIdForLogin" parameterType="list" resultType="xmenupermission">
+        select distinct t2.*
 <!--         xp.xid xId,
         xp.permission_name permissionName,
         xp.permission_description permissionDescription -->
-        from x_role_permission xrp
-        right join x_permission xp on xrp.x_permission_id = xp.xid
-        where xrp.x_role_id in 
-        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
-            #{item.xId}
-        </foreach>
+        from x_role_permission t1
+        right join x_permission t2 on xrp.x_permission_id = t2.xid
+        <where>
+            <if test="list != null and list.size != 0">
+		        t1.x_role_id in 
+		        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+		            #{item.xId}
+		        </foreach>
+            </if>
+            <if test="list == null or list.size == 0">
+                t1.x_role_id in ('')
+            </if>
+        </where> 
     </select>
 	
 </mapper>

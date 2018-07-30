@@ -1,5 +1,6 @@
 package com.yemh.xqsrd.account.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +45,17 @@ public class CustomUserServiceImpl implements UserDetailsService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
         // 获取权限
         List<XMenuPermission> perms = null;
-        try {
-            perms = ixLoginMapper.getPermissionByRoleId(roles);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(roles != null && roles.size() != 0) {
+            try {
+                perms = ixLoginMapper.getPermissionByRoleIdForLogin(roles);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            perms = new ArrayList<>();
         }
         
         
