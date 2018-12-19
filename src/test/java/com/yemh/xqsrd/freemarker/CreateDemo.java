@@ -17,16 +17,17 @@ import freemarker.template.Template;
 @SpringBootTest
 public class CreateDemo {
 
+    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> tableRows = new HashMap<String, Object>();
+
     @Autowired  
     Configuration configuration; //freeMarker configuration  
     
     @Test
     public void createDemo1() throws Exception {
-        Map<String, Object> model = new HashMap<String, Object>();
         model.put("demoNameUp", "Bookmark");
         model.put("demoNameLower", "bookmark");
         
-        Map<String, Object> tableRows = new HashMap<String, Object>();
         tableRows.put("haha1", 1);
         tableRows.put("haha2", 2);
         tableRows.put("haha3", 3);
