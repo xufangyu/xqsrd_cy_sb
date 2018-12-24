@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yemh.xqsrd.menu.mapper.IXMenuMapper">
+<mapper namespace="com.yemh.xqsrd.menu.mapper.IX${demoNameUp}Mapper">
     <!-- 插入 -->
-    <insert id="add${demoNameUp}">
+    <insert id="add">
         insert into x_${demoNameLower} (
             <#list tableRows?keys as key>
             ${key}
@@ -14,11 +14,11 @@
             ${'#{'}${tableRows[key]}${'}'},
             </#list>
             ${'#{'}gmtCreate,jdbcType=TIMESTAMP${'}'},
-            ${'#{'}gmtModified,jdbcType=TIMESTAMP${'}'},
+            ${'#{'}gmtModified,jdbcType=TIMESTAMP${'}'}
         )
     </insert>
     <!-- 更新 -->
-    <update id="upd${demoNameUp}">
+    <update id="upd">
         update x_${demoNameLower}
         <set>
             <#list tableRows?keys as key>
