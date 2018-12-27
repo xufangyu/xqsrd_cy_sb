@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yemh.xqsrd.bookmark.account.mapper.IXBookMarkMapper">
+<mapper namespace="com.yemh.xqsrd.bookmark.account.mapper.IXBookmarkMapper">
 <!-- 插入网址账号 -->
   <insert id="x_set_account_add" parameterType="Map">
     insert into x_bookmark
@@ -22,9 +22,6 @@
       </if>
       <if test="bindMail != null">
         bind_mail,
-      </if>
-      <if test="bindPhone != null">
-        bind_phone,
       </if>
       <if test="disc != null">
         disc,
@@ -54,9 +51,6 @@
       </if>
       <if test="bindMail != null">
         #{bindMail,jdbcType=CHAR},
-      </if>
-      <if test="bindPhone != null">
-        #{bindPhone,jdbcType=CHAR},
       </if>
       <if test="disc != null">
         #{disc,jdbcType=VARCHAR},
@@ -92,9 +86,6 @@
       <if test="bindMail != null">
         bind_mail,
       </if>
-      <if test="bindPhone != null">
-        bind_phone,
-      </if>
       <if test="disc != null">
         disc,
       </if>
@@ -124,9 +115,6 @@
       <if test="bindMail != null">
         #{bindMail,jdbcType=CHAR},
       </if>
-      <if test="bindPhone != null">
-        #{bindPhone,jdbcType=CHAR},
-      </if>
       <if test="disc != null">
         #{disc,jdbcType=VARCHAR},
       </if>
@@ -138,4 +126,36 @@
       </if>
     </trim>
   </insert>
+    <!-- 更新 -->
+    <update id="upd">
+        update x_bookmark
+        <set>
+            <if test="websiteName != null or websiteName !=''">website_name = #{websiteName},</if>
+            <if test="loginPasswd != null or loginPasswd !=''">login_passwd = #{loginPasswd},</if>
+            <if test="loginName != null or loginName !=''">login_name = #{loginName},</if>
+            <if test="websiteUrl != null or websiteUrl !=''">website_url = #{websiteUrl},</if>
+            <if test="bindMail != null or bindMail !=''">bind_mail = #{bindMail},</if>
+            <if test="disc != null or disc !=''">disc = #{disc},</if>
+            <if test="gmt_modified != null or gmt_modified !=''">gmt_modified = #{gmtModified},</if>
+        </set>
+        <where>
+            xid = #{xId}
+        </where>
+    
+    </update>
+    <!-- 分页查询 -->
+    <select id="getList" resultType="java.util.LinkedHashMap">
+        select 
+        t1.xid 'xId',
+        t1.website_name 'websiteName',
+        t1.login_passwd 'loginPasswd',
+        t1.login_name 'loginName',
+        t1.website_url 'websiteUrl',
+        t1.bind_mail 'bindMail',
+        t1.disc 'disc',
+        t1.gmt_modified 'gmtModified'
+        from x_bookmark t1
+        order by t1.gmt_modified
+    </select>
+    
 </mapper>

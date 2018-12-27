@@ -1,4 +1,4 @@
-DROP TABLE IF EXIST `x_${demoNameLower}`;
+DROP TABLE IF EXISTS `x_${demoNameLower}`;
 CREATE TABLE `x_${demoNameLower}` (
   `xid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '唯一性主键，自增1',
 <#list tableRows?keys as key>

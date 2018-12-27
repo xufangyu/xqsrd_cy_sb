@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.yemh.xqsrd.base.AbstractBaseService;
 import com.yemh.xqsrd.base.util.AESEncryptUtil;
 import com.yemh.xqsrd.base.util.DateTimeUtil;
-import com.yemh.xqsrd.bookmark.account.mapper.IXBookMarkMapper;
+import com.yemh.xqsrd.bookmark.account.mapper.IXBookmarkMapper;
 import com.yemh.xqsrd.bookmark.account.service.IAccountService;
 
 /**
@@ -22,7 +22,7 @@ import com.yemh.xqsrd.bookmark.account.service.IAccountService;
 public class AccountServiceImpl extends AbstractBaseService implements IAccountService {
 
     @Autowired
-    private IXBookMarkMapper iXMapper;
+    private IXBookmarkMapper iXMapper;
 
     @Override
     public void saveAccount(Map<String, Object> map) throws Exception {

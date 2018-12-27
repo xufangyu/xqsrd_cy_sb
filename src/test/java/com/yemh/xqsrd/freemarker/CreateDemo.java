@@ -1,6 +1,7 @@
 package com.yemh.xqsrd.freemarker;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,16 +13,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import freemarker.core.ParseException;
 import freemarker.template.Configuration;
-import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
-import freemarker.template.TemplateNotFoundException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CreateDemo {
-
+    String basePath = "./src/test/java/";
+    
     Map<String, Object> model = new HashMap<String, Object>();
     Map<String, Object> tableRows = new HashMap<String, Object>();
 
@@ -59,8 +58,16 @@ public class CreateDemo {
     }
     
     @Test
+    public void createAll() throws Exception {
+        createSQL();
+        createMapper();
+        createDao();
+        createService();
+        createServiceImpl();
+    }
+    
+    @Test
     public void createDemo1() throws Exception {
-        
         
         Template template = configuration.getTemplate("create/demoMapper.ftl");
         String processTemplateIntoString = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
@@ -69,33 +76,57 @@ public class CreateDemo {
     }
     @Test
     public void createSQL() throws Exception {
+        FileWriter fw = new FileWriter(basePath + "demoSQL.sql");
         Template template = configuration.getTemplate("create/demoSQL.ftl");
         String processTemplateIntoString = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         
+        fw.write(processTemplateIntoString);
+        fw.flush();
+        fw.close();
         System.out.println(processTemplateIntoString);
     }
     @Test
     public void createMapper() throws Exception {
+        FileWriter fw = new FileWriter(basePath + "demoMapper.xml");
         Template template = configuration.getTemplate("create/demoMapper.ftl");
         String processTemplateIntoString = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+        
+        fw.write(processTemplateIntoString);
+        fw.flush();
+        fw.close();
         System.out.println(processTemplateIntoString);
     }
     @Test
     public void createDao() throws Exception {
+        FileWriter fw = new FileWriter(basePath + "demoIMapper.java");
         Template template = configuration.getTemplate("create/demoIMapper.ftl");
         String processTemplateIntoString = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+        
+        fw.write(processTemplateIntoString);
+        fw.flush();
+        fw.close();
         System.out.println(processTemplateIntoString);
     }
     @Test
     public void createService() throws Exception {
+        FileWriter fw = new FileWriter(basePath + "demoService.java");
         Template template = configuration.getTemplate("create/demoService.ftl");
         String processTemplateIntoString = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+        
+        fw.write(processTemplateIntoString);
+        fw.flush();
+        fw.close();
         System.out.println(processTemplateIntoString);
     }
     @Test
     public void createServiceImpl() throws Exception {
+        FileWriter fw = new FileWriter(basePath + "demoServiceImpl.java");
         Template template = configuration.getTemplate("create/demoServiceImpl.ftl");
         String processTemplateIntoString = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+        
+        fw.write(processTemplateIntoString);
+        fw.flush();
+        fw.close();
         System.out.println(processTemplateIntoString);
     }
     
@@ -114,7 +145,7 @@ public class CreateDemo {
         
         for (int i = 0; i < names.length; i++) {
             // 如果没有下划线则开头字母大写
-            if(names.length > 1) {
+            if(i==0 && names.length > 1) {
                 sb.append(names[0]);
                 continue;
             }

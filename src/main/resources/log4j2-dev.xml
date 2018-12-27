@@ -43,6 +43,7 @@
 	    </AsyncLogger> -->
 	    <!-- 屏蔽springboot日志 -->
         <Logger name="org.springframework.boot" level="INFO" additivity="false" >
+            <appenderref ref="CONSOLE" />
         </Logger>
         <Logger name="org.springframework.web" level="INFO" additivity="false" >
             <appenderref ref="CONSOLE" />

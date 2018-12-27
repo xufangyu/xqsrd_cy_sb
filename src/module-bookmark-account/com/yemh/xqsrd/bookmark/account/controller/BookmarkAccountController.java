@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yemh.xqsrd.bookmark.account.service.IAccountService;
+import com.yemh.xqsrd.bookmark.account.service.IBookmarkService;
 
 /**
  * @author yemh
@@ -28,6 +29,8 @@ public class BookmarkAccountController {
 
     @Autowired
     private IAccountService accountServiceImpl;
+    @Autowired
+    private IBookmarkService iBookmarkService;
 
     /**
      * 前台传过来的参数为: apiName:xxxx param:{} json字符串
@@ -88,6 +91,13 @@ public class BookmarkAccountController {
     @RequestMapping(value = "/add", method=RequestMethod.POST)
     public String add(@RequestBody Map<String, Object> params) {
         String json = accountServiceImpl.add(params);
+        return json;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/list", method=RequestMethod.POST)
+    public String getList(@RequestBody Map<String, Object> params) {
+        String json = iBookmarkService.getList(params);
         return json;
     }
 }

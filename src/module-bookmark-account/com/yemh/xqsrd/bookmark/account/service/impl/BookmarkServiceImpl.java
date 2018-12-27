@@ -1,31 +1,27 @@
+package com.yemh.xqsrd.bookmark.account.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageRowBounds;
 import com.yemh.xqsrd.base.AbstractBaseService;
 import com.yemh.xqsrd.base.util.DateTimeUtil;
 import com.yemh.xqsrd.base.util.StringUtil;
+import com.yemh.xqsrd.bookmark.account.mapper.IXBookmarkMapper;
+import com.yemh.xqsrd.bookmark.account.service.IBookmarkService;
 
 /**
  * @author yemh
  * @date 2018/12/24
  */
-@Service("${demoNameUp}Service")
-public class ${demoNameUp}ServiceImpl extends AbstractBaseService implements ${demoNameUp}Service {
+@Service("BookmarkService")
+public class BookmarkServiceImpl extends AbstractBaseService  implements IBookmarkService {
 
     @Autowired
-    private IX${demoNameUp}Mapper iXMapper;
-    
+    private IXBookmarkMapper iXMapper;
 
     /* 
      * 
@@ -99,5 +95,6 @@ public class ${demoNameUp}ServiceImpl extends AbstractBaseService implements ${d
         }
         return F("获取失败");
     }
+
 
 }
