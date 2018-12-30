@@ -34,7 +34,7 @@ public class BookmarkAccountController {
 
     /**
      * 前台传过来的参数为: apiName:xxxx param:{} json字符串
-     */
+
     @RequestMapping(value = "/waAPI")
     @ResponseBody
     public Object doAPI(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
@@ -64,7 +64,7 @@ public class BookmarkAccountController {
         System.out.println("成功");
         return returnMap;
     }
-
+     */
     /**
      * 从request中获得参数Map，并返回可读的Map
      * 
@@ -96,7 +96,7 @@ public class BookmarkAccountController {
     
     @ResponseBody
     @RequestMapping(value = "/list", method=RequestMethod.POST)
-    public String getList(@RequestBody Map<String, Object> params) {
+    public String getList(@RequestBody(required=false) Map<String, Object> params) {
         String json = iBookmarkService.getList(params);
         return json;
     }

@@ -117,6 +117,13 @@
 		    <artifactId>disruptor</artifactId>
 		    <version>${disruptor.version}</version>
 		</dependency>
+		<!-- dom4j -->
+		<dependency>
+		    <groupId>dom4j</groupId>
+		    <artifactId>dom4j</artifactId>
+		    <version>1.6.1</version>
+		</dependency>
+		
 <!-- slf4j start  
 <dependency>
     <groupId>org.slf4j</groupId>

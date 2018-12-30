@@ -63,12 +63,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/role/**",
             "/permMenu/**",
             "/menu/**",
-            "/bookmark/**"
+            "/bookmark/**",
+            "/wc/**"
             );
         http.authorizeRequests()
-            .antMatchers("/lib/**", "/css/**", "/js/**", "/imag/**", "/**/favicon.ico").permitAll()
+//            .antMatchers(
+//                "/lib/**", 
+//                "/css/**", 
+//                "/js/**", 
+//                "/imag/**", 
+//                "/**/favicon.ico",
+//                "/wc/**").permitAll()
             // 关闭鉴权
-//            .antMatchers("/**").permitAll()
+            .antMatchers("/**").permitAll()
             .anyRequest()
             .authenticated()
             .and()
