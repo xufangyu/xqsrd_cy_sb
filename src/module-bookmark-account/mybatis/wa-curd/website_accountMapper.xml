@@ -157,5 +157,19 @@
         from x_bookmark t1
         order by t1.gmt_modified
     </select>
-    
+    <!-- 根据网址模糊查询，分页查询 -->
+    <select id="getListByUrlKey" resultType="java.util.LinkedHashMap">
+        select 
+        t1.xid 'xId',
+        t1.website_name 'websiteName',
+        t1.login_passwd 'loginPasswd',
+        t1.login_name 'loginName',
+        t1.website_url 'websiteUrl',
+        t1.bind_mail 'bindMail',
+        t1.disc 'disc',
+        t1.gmt_modified 'gmtModified'
+        from x_bookmark t1
+        where t1.website_url like concat(#{urlKey}, '%')
+        order by t1.gmt_modified
+    </select>
 </mapper>

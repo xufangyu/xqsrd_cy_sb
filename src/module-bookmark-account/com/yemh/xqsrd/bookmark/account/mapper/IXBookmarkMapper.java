@@ -15,4 +15,6 @@ public interface IXBookmarkMapper{
 
     int del(Map<String, Object> params);
 
+    Page<Map<String, Object>> getListByUrlKey(PageRowBounds pageRowBounds, Map<String, Object> params);
+
 }

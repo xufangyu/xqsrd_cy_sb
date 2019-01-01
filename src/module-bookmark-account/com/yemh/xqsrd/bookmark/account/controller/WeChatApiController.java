@@ -23,6 +23,7 @@ import com.yemh.xqsrd.base.util.SHA1Util;
 import com.yemh.xqsrd.base.util.StringUtil;
 import com.yemh.xqsrd.base.util.WCXmlUtil;
 import com.yemh.xqsrd.bookmark.account.service.IAccountService;
+import com.yemh.xqsrd.bookmark.account.service.IWeChatApiService;
 
 /**
  * @author yemh
@@ -33,7 +34,9 @@ import com.yemh.xqsrd.bookmark.account.service.IAccountService;
 public class WeChatApiController {
 
     @Autowired
-    private IAccountService accountServiceImpl;
+    private IAccountService accountService;
+    @Autowired
+    private IWeChatApiService WeChatApiService;
     
     @Value("${wc.token}")
     String token;
@@ -78,7 +81,32 @@ public class WeChatApiController {
         Map<String, Object> parseInfo = WCXmlUtil.parseInfo(bodyParam);
         String toUserName = String.valueOf(parseInfo.get("toUserName"));
         String fromUserName = String.valueOf(parseInfo.get("fromUserName"));
+
+        // 检查用户
+        String openid = fromUserName;
+        if(!"oHQu90i-m3lKrC8K4vNYG9ithKVE".equals(openid)) {
+            parseInfo.put("content", "error");
+        }
         
+        // 获取要查询的内容
+        String contentStr = String.valueOf(parseInfo.get("content"));
+        String[] queryList = contentStr.split(",");
+        if(queryList.length < 2) {
+            parseInfo.put("content", "lengthError");
+        }
+        switch (queryList[0]) {
+            case "1":
+                Map<String, Object> queryParams = new HashMap<>();
+                queryParams.put("urlKey", queryList[1]);
+                String listResult = WeChatApiService.getListByUrlKey(queryParams);
+                parseInfo.put("content", listResult);
+                break;
+            default:
+                parseInfo.put("content", "KeyError");
+                break;
+        }
+        
+
         // 回复消息时，需要把原来消息的发送者和接收者对调
         parseInfo.put("fromUserName", toUserName);
         parseInfo.put("toUserName", fromUserName);
