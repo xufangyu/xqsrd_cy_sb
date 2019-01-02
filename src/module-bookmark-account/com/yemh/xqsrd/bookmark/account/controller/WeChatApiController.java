@@ -41,6 +41,8 @@ public class WeChatApiController {
     @Value("${wc.token}")
     String token;
 
+    private final String splator = " ";
+    
     /**
      * 前台传过来的参数为: apiName:xxxx param:{} json字符串
      */
@@ -90,7 +92,7 @@ public class WeChatApiController {
         
         // 获取要查询的内容
         String contentStr = String.valueOf(parseInfo.get("content"));
-        String[] queryList = contentStr.split(",");
+        String[] queryList = contentStr.split(splator);
         if(queryList.length < 2) {
             parseInfo.put("content", "lengthError");
         }

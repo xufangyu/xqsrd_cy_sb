@@ -28,6 +28,8 @@ public class WeChatApiServiceImpl extends AbstractBaseService  implements IWeCha
     
     @Value("${bookmark.key}")
     String bookmarkKey;
+    
+    private final String splator = ":";
 
     @Override
     public String getListByUrlKey(Map<String, Object> params) {
@@ -50,15 +52,24 @@ public class WeChatApiServiceImpl extends AbstractBaseService  implements IWeCha
         try {
             pageList = iXMapper.getListByUrlKey(new PageRowBounds(pageNum, pageSize), params);
             if(pageList != null) {
+                StringBuilder sb = new StringBuilder();
                 // 将密码解密返回
                 for (int i = 0; i < pageList.size(); i++) {
                     Map<String, Object> map = pageList.get(i);
+                    String websiteUrl = String.valueOf(map.get("websiteUrl"));
+                    String loginName = String.valueOf(map.get("loginName"));
                     String passwordEnc = String.valueOf(map.get("loginPasswd"));
                     String password = AESEncryptUtil.decrypt(passwordEnc, bookmarkKey);
-                    map.put("loginPasswd", password);
+//                    map.put("loginPasswd", password);
+                    
+                    sb.append(websiteUrl).append(splator)
+                    .append(loginName).append(splator)
+                    .append(password).append(splator)
+                    .append("\r\n");
                 }
                 
-                return S("获取所有成功", pageList, pageList.getTotal());
+//                return S("获取所有成功", pageList, pageList.getTotal());
+                return sb.toString();
             }
         } catch (Exception e) {
             e.printStackTrace();
