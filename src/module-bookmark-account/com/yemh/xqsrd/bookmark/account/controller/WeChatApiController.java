@@ -97,11 +97,22 @@ public class WeChatApiController {
             parseInfo.put("content", "lengthError");
         }
         switch (queryList[0]) {
-            case "1":
+            case "1": // 查询
                 Map<String, Object> queryParams = new HashMap<>();
                 queryParams.put("urlKey", queryList[1]);
                 String listResult = WeChatApiService.getListByUrlKey(queryParams);
                 parseInfo.put("content", listResult);
+                break;
+            case "1d": // 删除
+                if(queryList.length < 2) {
+                    parseInfo.put("content", "del KeyError lengthError");
+                    break;
+                }
+                Map<String, Object> queryParams2 = new HashMap<>();
+                queryParams2.put("urlKey", queryList[1]);
+                queryParams2.put("deleteIndex", queryList[2]);
+                String delResult = WeChatApiService.setDeleteByIndex(queryParams2);
+                parseInfo.put("content", delResult);
                 break;
             default:
                 parseInfo.put("content", "KeyError");

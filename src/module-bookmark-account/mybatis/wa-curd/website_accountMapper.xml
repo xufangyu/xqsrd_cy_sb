@@ -160,11 +160,26 @@
     <!-- 根据网址模糊查询，分页查询 -->
     <select id="getListByUrlKey" resultType="java.util.LinkedHashMap">
         select 
+        t1.xid 'xId',
         t1.website_url 'websiteUrl',
         t1.login_name 'loginName',
         t1.login_passwd 'loginPasswd'
         from x_bookmark t1
-        where t1.website_url like concat('%', concat(#{urlKey}, '%'))
+        <where>
+        t1.website_url like concat('%', concat(#{urlKey}, '%'))
+        and t1.is_deleted = 0
+        </where>
         order by t1.gmt_modified
     </select>
+    <!-- 删除-->
+    <update id="del">
+        update x_bookmark
+        <set>
+            is_deleted = 1,
+        </set>
+        <where>
+            xid = #{xId}
+        </where>
+    
+    </update>
 </mapper>

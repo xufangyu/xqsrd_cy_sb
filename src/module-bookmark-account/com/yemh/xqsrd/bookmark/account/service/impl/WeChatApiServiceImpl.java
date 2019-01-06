@@ -78,4 +78,57 @@ public class WeChatApiServiceImpl extends AbstractBaseService  implements IWeCha
     }
 
 
+    @Override
+    public String setDeleteByIndex(Map<String, Object> params) {
+
+        int pageNum = 0, pageSize = 10;
+        String page = (String)params.get("page");
+        if (StringUtil.isEmpty(page)) {
+            pageNum = 1;
+        } else {
+            pageNum = Integer.parseInt(page);
+        }
+        String limit = (String)params.get("limit");
+        if (StringUtil.isEmpty(limit)) {
+            pageSize = 20;
+        } else {
+            pageSize = Integer.parseInt(limit);
+        }
+        
+        int deleteIndex = 0;
+        String deleteIndexStr = (String)params.get("deleteIndex"); 
+        if (StringUtil.isEmpty(deleteIndexStr)) {
+            return F("删除失败");
+        } else {
+            deleteIndex = Integer.parseInt(deleteIndexStr);
+        }
+
+        Page<Map<String, Object>> pageList = null;
+        try {
+            pageList = iXMapper.getListByUrlKey(new PageRowBounds(pageNum, pageSize), params);
+            if(pageList != null) {
+                String deleteXId = "";
+                // 将密码解密返回
+                for (int i = 0; i < pageList.size(); i++) {
+                    Map<String, Object> map = pageList.get(i);
+                    String xId = String.valueOf(map.get("xId"));
+                    if( i + 1 == deleteIndex) {
+                        deleteXId = xId;
+                        break;
+                    }
+                }
+                
+                int flag = iXMapper.del(deleteXId);
+                
+                if(flag >0) {
+                    return S("删除成功");
+                }
+                
+//                return S("获取所有成功", pageList, pageList.getTotal());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return F("删除失败");
+    }
 }
